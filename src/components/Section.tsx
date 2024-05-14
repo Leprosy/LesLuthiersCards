@@ -1,20 +1,20 @@
-import React, {PropsWithChildren} from 'react';
-import {Text, View, ViewStyle, useColorScheme} from 'react-native';
-import {colors, styles} from '../const/styles';
+import React, { PropsWithChildren } from "react";
+import { Text, View, ViewStyle } from "react-native";
+import { colors, styles } from "../const/styles";
 
-type CardProps = PropsWithChildren<{
+type SectionProps = PropsWithChildren<{
   style?: ViewStyle;
   title: string;
   text: string;
 }>;
 
-export function Card({
+export function Section({
   title,
   text,
   style,
   children,
-}: CardProps): React.JSX.Element {
-  const theme = useColorScheme() || 'light';
+}: SectionProps): React.JSX.Element {
+  const theme = "light"; //useColorScheme() || "light";
 
   return (
     <View style={[styles.sectionContainer, colors[theme].container, style]}>

@@ -1,60 +1,47 @@
 /**
- * Circle12 App
+ * Les Luthiers Cards App
  * https://github.com/facebook/react-native
  *
  * @format
  */
 
-import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Linking,
-  SafeAreaView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React from "react";
+import { Image, Text, View } from "react-native";
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Card} from './src/components/Card';
-import {colors, styles} from './src/const/styles';
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { RootTabParamList } from "./src/types";
+import { HomeScreen } from "./src/screens/HomeScreen";
+import { CardScreen } from "./src/screens/CardScreen";
+import { GameStateProvider } from "./src/context/GameState";
+
+function LogoTitle(): React.JSX.Element {
+  return (
+    <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginLeft: 50 }}>
+      <Image
+        style={{ width: 30, height: 30 }}
+        source={require("./res/img/ui/corbata.png")} />
+      <Text style={{ fontSize: 20, fontWeight: 600, paddingHorizontal: 10 }}>Les Luthiers</Text>
+      <Image
+        style={{ width: 30, height: 30 }}
+        source={require("./res/img/ui/corbata.png")} />
+    </View>
+  );
+}
+
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  const theme = useColorScheme() || 'light';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const Tab = createBottomTabNavigator<RootTabParamList>();
 
   return (
-    <SafeAreaView style={[{flex: 1}, colors[theme].app]}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-
-      <Card
-        style={{flex: 1}}
-        title="Circle-12"
-        text={
-          'Implementation of the Circle of 12 Tones proposed by Ron Jarzombek.'
-        }>
-        <Text
-          style={{color: '#66f'}}
-          onPress={() =>
-            Linking.openURL('https://www.ronjarzombek.com/rj12tone.html')
-          }>
-          {'>>'} https://www.ronjarzombek.com/rj12tone.html
-        </Text>
-      </Card>
-
-      <Card
-        style={{flex: 1}}
-        title="Credits"
-        text={'Code by @leprosy\nOriginal idea by Ron Jarzombek'}
-      />
-    </SafeAreaView>
+    <GameStateProvider>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName="Home" screenOptions={{ headerTitle: () => <LogoTitle /> }}>
+          <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Text>@</Text> }} />
+          <Tab.Screen name="Card" component={CardScreen} options={{ tabBarIcon: (props) => <Text style={{ color: props.color }}>%</Text> }}/>
+        </Tab.Navigator>
+      </NavigationContainer>
+    </GameStateProvider>
   );
 }
 
