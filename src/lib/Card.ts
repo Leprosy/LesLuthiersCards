@@ -69,6 +69,7 @@ export class Card {
     const songCardList = songCard?.cards || [];
     console.log("getValidSong", { playerCardSet, songCard, songCardList });
     let claps = 0;
+    let totalCards = songCardList.length;
 
     // Validate each of the cards of the song
     songCardList.forEach((id: number) => {
@@ -82,12 +83,14 @@ export class Card {
       if (find !== undefined) {
         console.log("Found", Card.getCard(find.id));
         claps += find.claps;
+        totalCards--;
       } else {
         claps = 0;
         return;
       }
     });
 
+    if (totalCards != 0) claps = 0;
     return claps;
   }
 }

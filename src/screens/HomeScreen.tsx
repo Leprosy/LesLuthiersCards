@@ -10,12 +10,10 @@ import { MiniCard } from "../components/MiniCard";
 import { GameStateContext } from "../context/GameState";
 
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Home">): React.JSX.Element {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [turn, setTurn] = useState(0);
   const [canPress, setCanPress] = useState(true);
   const [selection, setSelection] = useState<Card[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const State = useContext(GameStateContext);
+  const { players, setPlayers, turn, setTurn } = useContext(GameStateContext);
 
   const getHowManyPlayers = (num: number) => {
     const total = num + 1;
@@ -126,7 +124,6 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
               card={card}
               index={i}
               elevated={false}
-              total={players[turn].cards.length}
               selected={selection.indexOf(card) >= 0}
               onPress={() => selection.length > 0 ? editSelection(card) : getCardInfo(card)}
               onLongPress={() => editSelection(card)}

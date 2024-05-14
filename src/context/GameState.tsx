@@ -5,13 +5,16 @@ import { Player } from "../lib/Player";
 export const GameStateContext = createContext<GameState>({
   players: [],
   setPlayers: () => {},
+  turn: 0,
+  setTurn: () => {},
 });
 
 export function GameStateProvider({ children }: PropsWithChildren) {
   const [players, setPlayers] = useState<Player[]>([]);
+  const [turn, setTurn] = useState(0);
 
   return (
-    <GameStateContext.Provider value={{ players, setPlayers }}>
+    <GameStateContext.Provider value={{ players, setPlayers, turn, setTurn }}>
       {children}
     </GameStateContext.Provider>
   );

@@ -15,4 +15,6 @@ export type imageAsset = {
 export type GameState = {
   players: Player[],
   setPlayers: (players: Player[]) => void,
+  turn: number,
+  setTurn: (i: number) => void
 }

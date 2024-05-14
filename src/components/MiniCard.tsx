@@ -6,7 +6,6 @@ import { imageStore } from "../lib/images";
 type MiniCardProps = {
   card: Card;
   index: number,
-  total: number,
   selected: boolean,
   elevated: boolean,
   onPress: () => void,
@@ -28,8 +27,7 @@ const getPos = (i: number) => {
   return { left, top };
 };
 
-export function MiniCard({ card, index, total, selected, elevated, onPress, onLongPress }: MiniCardProps): React.JSX.Element {
-
+export function MiniCard({ card, index, selected, elevated, onPress, onLongPress }: MiniCardProps): React.JSX.Element {
   return (
     <TouchableOpacity style={[
       styles.container,
