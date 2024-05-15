@@ -1,7 +1,7 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Alert, Button, Modal, Pressable, SafeAreaView, Text, View } from "react-native";
+import { Alert, Button, SafeAreaView, Text, View } from "react-native";
 import { RootTabParamList } from "../types";
-import { colors, styles } from "../const/styles";
+import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
 import { useContext, useEffect, useState } from "react";
@@ -12,7 +12,6 @@ import { GameStateContext } from "../context/GameState";
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Home">): React.JSX.Element {
   const [canPress, setCanPress] = useState(true);
   const [selection, setSelection] = useState<Card[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
   const { players, setPlayers, turn, setTurn } = useContext(GameStateContext);
 
   const getHowManyPlayers = (num: number) => {
@@ -41,7 +40,9 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     if (total == 0) {
       Alert.alert("Info", "Jugada no valida");
     } else {
-      Alert.alert("Info", `Ganaste ${total} puntos`);
+      Alert.alert("Info", `¡Ganaste ${total} aplausos!`);
+      players[turn].claps += total;
+      selection.forEach((card: Card) => players[turn].cards.splice(players[turn].cards.indexOf(card), 1));
       setSelection([]);
     }
 
@@ -70,40 +71,17 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     }
   };
 
-  const renamePlayer = (i: index) => {
-    setModalVisible(true);
-  };
-
   useEffect(() => {
     console.log("Players status", players);
   }, [players, turn]);
 
   return (
     <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          console.log("onRequestClose");
-          setModalVisible(!modalVisible);
-        }}>
-
-        <View style={styles.modalContainer}>
-          <Text>Hello World!</Text>
-          <Pressable
-            style={styles.button}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <Text>Hide Modal</Text>
-          </Pressable>
-        </View>
-      </Modal>
-
       <Section
         title="Juego"
         text={"..."}
       >
-        {players.map((p: Player, i: number) => <Text onPress={() => renamePlayer(i)} key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == turn ? "<<" : ""}</Text>)}
+        {players.map((p: Player, i: number) => <Text key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == turn ? "<<" : ""}</Text>)}
         <Button disabled={!canPress} title={`Comenzar con ${getHowManyPlayers(players.length)} jugadores`} onPress={resetGame}></Button>
         <Button disabled={!canPress || players.length < 2} title="Sacar carta" onPress={drawCard}></Button>
         <Button disabled={!canPress || players.length < 2 || selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button>
