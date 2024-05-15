@@ -60,10 +60,6 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     }, 1000);
   };
 
-  const getCardInfo = (card: Card) => {
-    navigation.navigate("Card", { card });
-  };
-
   const editSelection = (card: Card) => {
     if (selection.indexOf(card) < 0) {
       setSelection([...selection, card]);
@@ -118,17 +114,19 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
           title={`Turno de ${players[turn].name}`}
           text={"..."}>
 
-          {players[turn].cards.map((card: Card, i: number) =>
-            <MiniCard
-              key={i}
-              card={card}
-              index={i}
-              elevated={false}
-              selected={selection.indexOf(card) >= 0}
-              onPress={() => selection.length > 0 ? editSelection(card) : getCardInfo(card)}
-              onLongPress={() => editSelection(card)}
-            />
-          )}
+          <View>
+            {players[turn].cards.map((card: Card, i: number) =>
+              <MiniCard
+                key={i}
+                card={card}
+                index={i}
+                elevated={false}
+                selected={selection.indexOf(card) >= 0}
+                onPress={() => selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card })}
+                onLongPress={() => editSelection(card)}
+              />
+            )}
+          </View>
 
         </Section>
         : null }

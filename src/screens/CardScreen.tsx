@@ -1,10 +1,12 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Image, SafeAreaView, Text, useColorScheme } from "react-native";
+import { Image, SafeAreaView, Text, View, useColorScheme } from "react-native";
 import { RootTabParamList } from "../types";
 import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { getSlug } from "../lib/utils";
 import { imageStore } from "../lib/images";
+import { MiniCard } from "../components/MiniCard";
+import { Card } from "../lib/Card";
 
 export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Card">): React.JSX.Element {
   const theme = useColorScheme() || "light";
@@ -21,6 +23,14 @@ export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Ca
 
           <Text>{getSlug(card.name)}</Text>
           <Image style={{ width: 200, height: 300 }} source={imageStore[card.id].res}/>
+          { card.cards
+            ? (<>
+              <Text>Requiere :</Text>
+              <View>
+                {card.cards.map((id: number, i) => <MiniCard card={Card.getCard(id)!} index={i} />)}
+              </View>
+            </>)
+            : null}
         </Section>
 
         :
