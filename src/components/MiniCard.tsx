@@ -13,11 +13,8 @@ type MiniCardProps = {
 };
 
 const rowItems = 6;
-//const iniTop = 80;
-const horSpace = 58;
+const horSpace = 50;
 const rowSpace = 50;
-
-const cutText = (text: string) => text.split(" ")[0];
 
 const getRot = () => Math.round(Math.random() * 10) - 5;
 
@@ -39,7 +36,7 @@ export function MiniCard({ card, index, selected, elevated, onPress, onLongPress
     activeOpacity={0.8}
     onPress={() => (onPress || (() => {})) ()}
     onLongPress={() => (onLongPress || (() => {})) ()}>
-      <Text style={styles.title}>{cutText(card.name)}</Text>
+      <Text style={styles.title}>{card.slug}</Text>
       <Image style={styles.image} source={imageStore[card.id].res}/>
     </TouchableOpacity>
   );
@@ -50,7 +47,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "25%",
     padding: 5,
-    //top: 60,
     left: 10,
     backgroundColor: "#ccc",
     borderStyle: "solid",

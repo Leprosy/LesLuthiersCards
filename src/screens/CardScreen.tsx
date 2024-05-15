@@ -27,7 +27,7 @@ export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Ca
             ? (<>
               <Text>Requiere :</Text>
               <View>
-                {card.cards.map((id: number, i) => <MiniCard card={Card.getCard(id)!} index={i} />)}
+                {card.cards.map((id: number, i) => <MiniCard card={Card.getCard(id)!} index={i} key={i} />)}
               </View>
             </>)
             : null}

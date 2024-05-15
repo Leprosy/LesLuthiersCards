@@ -14,15 +14,17 @@ export class Card {
   id: number;
   type: cardType;
   name: string;
+  slug: string;
   text: string;
   claps: number;
   cards?: number[];
 
-  constructor({ id, type, name, text, claps, cards }: cardAttr) {
+  constructor({ id, type, name, slug, text, claps, cards }: cardAttr) {
     this.id = id;
     this.type = type;
     this.claps = claps;
     this.name = name;
+    this.slug = slug;
     this.text = text;
     this.cards = cards;
   }
