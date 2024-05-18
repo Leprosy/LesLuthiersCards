@@ -1,0 +1,18 @@
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          console.log("onRequestClose");
+          setModalVisible(!modalVisible);
+        }}>
+
+        <View style={styles.modalContainer}>
+          <Text>Hello World!</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => setModalVisible(!modalVisible)}>
+            <Text>Hide Modal</Text>
+          </Pressable>
+        </View>
+      </Modal>
