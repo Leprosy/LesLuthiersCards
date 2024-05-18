@@ -1,38 +1,19 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { Alert, Button, SafeAreaView, Text, View } from "react-native";
-import { RootTabParamList } from "../types";
+import { GameStateActionType, RootTabParamList } from "../types";
 import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
 import { useContext, useEffect, useState } from "react";
 import { Card } from "../lib/Card";
 import { MiniCard } from "../components/MiniCard";
-import { GameStateContext } from "../context/GameState";
+import { GameContext } from "../context/GameState";
 
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Home">): React.JSX.Element {
-  const [canPress, setCanPress] = useState(true);
-  const [selection, setSelection] = useState<Card[]>([]);
-  const { players, setPlayers, turn, setTurn } = useContext(GameStateContext);
+  const [canDraw, setCanDraw] = useState(false);
+  const { state, dispatch } = useContext(GameContext);
 
-  const getHowManyPlayers = (num: number) => {
-    const total = num + 1;
-    return (total > 4 || total == 1) ? 2 : total;
-  };
-
-  const resetGame = () => {
-    // Turn
-    setTurn(0);
-
-    // Players
-    const total = getHowManyPlayers(players.length);
-    const plays = [];
-
-    for (let i = 0; i < total; ++i) {
-      plays.push(new Player());
-    }
-
-    setPlayers(plays);
-  };
+  /*
 
   const playSelection = () => {
     const total = Card.getValidSong(selection);
@@ -49,58 +30,60 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     console.log("playSelection", total);
   };
 
-  const drawCard = () => {
-    setCanPress(false);
-    const card = Card.getRandomCard();
-    players[turn].cards.push(card);
 
-    setTimeout( () => {
-      setTurn((turn + 1) % players.length);
-      setSelection([]);
-      setCanPress(true);
-    }, 1000);
-  };
-
+*/
   const editSelection = (card: Card) => {
-    if (selection.indexOf(card) < 0) {
-      setSelection([...selection, card]);
-    } else {
-      const select = [...selection];
-      select.splice(select.indexOf(card), 1);
-      setSelection(select);
-    }
+    dispatch({ type: GameStateActionType.EditSelection, data: { card } });
   };
 
-  useEffect(() => {
-    console.log("Players status", players);
-  }, [players, turn]);
+  const drawCard = () => {
+    setCanDraw(false);
+    dispatch({ type: GameStateActionType.DrawCard, call: (data) => {
+      console.log("drawCard: dispatch returned this", data);
+    } });
+  };
+
+  const nextTurn = () => {
+    setCanDraw(true);
+    dispatch({ type: GameStateActionType.NextTurn });
+  };
+
+  const resetGame = () => {
+    setCanDraw(true);
+    dispatch({ type: GameStateActionType.ResetGame, data: {} });
+  };
 
   return (
     <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
       <Section
         title="Juego"
-        text={"..."}
+        text={""}
       >
-        {players.map((p: Player, i: number) => <Text key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == turn ? "<<" : ""}</Text>)}
-        <Button disabled={!canPress} title={`Comenzar con ${getHowManyPlayers(players.length)} jugadores`} onPress={resetGame}></Button>
-        <Button disabled={!canPress || players.length < 2} title="Sacar carta" onPress={drawCard}></Button>
-        <Button disabled={!canPress || players.length < 2 || selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button>
+        {state.players.map((p: Player, i: number) =>
+          <Text key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
+        <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
+
+        {state.isGameActive() ? (canDraw
+          ? <Button title="Sacar carta" onPress={drawCard}></Button>
+          : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
+
+        {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={() => "playSelection"}></Button> : null}
       </Section>
 
-      {players.length > 1 ?
+      {state.players.length > 1 ?
         <Section
-          title={`Turno de ${players[turn].name}`}
+          title={`Turno de ${state.currentPlayer?.name}`}
           text={"..."}>
 
           <View>
-            {players[turn].cards.map((card: Card, i: number) =>
+            {state.currentPlayer?.cards.map((card: Card, i: number) =>
               <MiniCard
                 key={i}
                 card={card}
                 index={i}
                 elevated={false}
-                selected={selection.indexOf(card) >= 0}
-                onPress={() => selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card })}
+                selected={state.selection.indexOf(card) >= 0}
+                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card })}
                 onLongPress={() => editSelection(card)}
               />
             )}
