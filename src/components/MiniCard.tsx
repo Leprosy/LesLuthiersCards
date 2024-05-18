@@ -24,6 +24,10 @@ const getPos = (i: number) => {
   return { left, top };
 };
 
+const getSize = (str: string) => {
+  return { fontSize: str.length > 10 ? 13 : 15 };
+};
+
 export function MiniCard({ card, index, selected, elevated, onPress, onLongPress }: MiniCardProps): React.JSX.Element {
   return (
     <TouchableOpacity style={[
@@ -36,7 +40,7 @@ export function MiniCard({ card, index, selected, elevated, onPress, onLongPress
     activeOpacity={0.8}
     onPress={() => (onPress || (() => {})) ()}
     onLongPress={() => (onLongPress || (() => {})) ()}>
-      <Text style={styles.title}>{card.slug}</Text>
+      <Text style={[styles.title, getSize(card.slug)]}>{card.slug}</Text>
       <Image style={styles.image} source={imageStore[card.id].res}/>
     </TouchableOpacity>
   );
@@ -57,7 +61,6 @@ const styles = StyleSheet.create({
     borderColor: "#f00",
   },
   title: {
-    fontSize: 15,
     fontWeight: "600",
     textAlign: "center",
     marginBottom: 5,
