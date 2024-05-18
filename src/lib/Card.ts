@@ -70,7 +70,7 @@ export class Card {
     const songCard = playerCardSet.find((card: Card) => card.type === cardType.Song);
     const songCardList = songCard?.cards || [];
     console.log("getValidSong", { playerCardSet, songCard, songCardList });
-    let claps = 0;
+    let claps = songCard?.claps || 0;
     let totalCards = songCardList.length;
 
     // Validate each of the cards of the song

@@ -117,9 +117,37 @@ const songs: cardAttr[] = [
     name: "La bella y graciosa moza marchose a lavar la ropa",
     slug: "La moza",
     text: "Les Luthiers continúan su recital de esta noche interpretando, de Johann Sebastian Mastropiero, ... bueno, La bella y graciosa moza... bla bla bla... la colgó de un abedul",
-    claps: 5,
+    claps: 10,
     cards: [0, 11]
-  }
+  },
+  {
+    id: 103,
+    type: cardType.Song,
+    name: "Recitado Gauchezco",
+    slug: "Recitado",
+    text: "...que te parió",
+    claps: 5,
+    cards: [0, 3]
+  },
+  {
+    id: 104,
+    type: cardType.Song,
+    name: "Solo Necesitamos",
+    slug: "Solo Necesitamos",
+    text: "Hippie",
+    claps: 5,
+    cards: [2, 4]
+  },
+  {
+    id: 105,
+    type: cardType.Song,
+    name: "Poemas de Gemini",
+    slug: "Poemas Gemini",
+    text: "1490",
+    claps: 5,
+    cards: [3]
+  },
+
 ];
 
 export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs];

@@ -15,7 +15,6 @@ export function GameStateProvider({ children }: PropsWithChildren) {
 
     // TODO: State methods - better way to implement this?
     getNextPlayers: function() {
-      console.log("Im method", this);
       let total = state.players.length + 1;
       if (total > MAX_PLAYERS || total == 1) total = 2;
       return total;
@@ -27,11 +26,6 @@ export function GameStateProvider({ children }: PropsWithChildren) {
   };
 
   const reducer = (state: GameState, action: GameStateAction): GameState => {
-    if (action.call) {
-      console.log("Calling CB");
-      action.call(action.type);
-    }
-
     switch (action.type) {
       case GameStateActionType.NextTurn:
         if (state.turn == state.players.length - 1) {
@@ -40,7 +34,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
           return { ...state, turn: state.turn + 1, currentPlayer: state.players[state.turn + 1], selection: [] };
         }
 
-      case GameStateActionType.DrawCard: {
+      case GameStateActionType.DrawCard: { // TODO not pure?
         const card = Card.getRandomCard();
         state.currentPlayer?.cards.push(card);
         return { ...state };
@@ -60,17 +54,32 @@ export function GameStateProvider({ children }: PropsWithChildren) {
 
       case GameStateActionType.EditSelection: {
         const card = action.data.card as Card;
-        console.log("adding", card);
         let selection: Card[] = [];
-        console.log("current", state.selection);
 
         if (state.selection.indexOf(card) < 0) {
           selection = [...state.selection, card];
-          console.log("no card found", selection);
         } else {
           selection = [...state.selection];
           selection.splice(selection.indexOf(card), 1);
-          console.log("found, removing", selection);
+        }
+
+        return { ...state, selection };
+      }
+
+      case GameStateActionType.PlaySelection: {
+        const total = Card.getValidSong(state.selection);
+        let selection: Card[] = [];
+
+        if (total == 0) {
+          selection = state.selection;
+        } else {
+          state.currentPlayer!.claps += total;
+          state.selection.forEach((card: Card) => state.currentPlayer?.cards.splice(state.currentPlayer?.cards.indexOf(card), 1));
+        }
+
+        if (action.call) {
+          console.log("Calling CB, total", total);
+          action.call(total);
         }
 
         return { ...state, selection };

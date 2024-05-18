@@ -23,7 +23,8 @@ export enum GameStateActionType {
   NextTurn,
   ResetGame,
   DrawCard,
-  EditSelection
+  EditSelection,
+  PlaySelection
 }
 
 export type GameStateAction = {

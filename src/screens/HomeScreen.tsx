@@ -4,7 +4,7 @@ import { GameStateActionType, RootTabParamList } from "../types";
 import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Card } from "../lib/Card";
 import { MiniCard } from "../components/MiniCard";
 import { GameContext } from "../context/GameState";
@@ -13,25 +13,13 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   const [canDraw, setCanDraw] = useState(false);
   const { state, dispatch } = useContext(GameContext);
 
-  /*
 
   const playSelection = () => {
-    const total = Card.getValidSong(selection);
-
-    if (total == 0) {
-      Alert.alert("Info", "Jugada no valida");
-    } else {
-      Alert.alert("Info", `¡Ganaste ${total} aplausos!`);
-      players[turn].claps += total;
-      selection.forEach((card: Card) => players[turn].cards.splice(players[turn].cards.indexOf(card), 1));
-      setSelection([]);
-    }
-
-    console.log("playSelection", total);
+    dispatch({ type: GameStateActionType.PlaySelection, call: (total: number) => {
+      Alert.alert(total > 0 ? `¡Ganaste ${total} aplausos!` : "Jugada invalida");
+    } });
   };
 
-
-*/
   const editSelection = (card: Card) => {
     dispatch({ type: GameStateActionType.EditSelection, data: { card } });
   };
@@ -67,7 +55,7 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
           ? <Button title="Sacar carta" onPress={drawCard}></Button>
           : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
 
-        {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={() => "playSelection"}></Button> : null}
+        {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button> : null}
       </Section>
 
       {state.players.length > 1 ?
