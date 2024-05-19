@@ -10,6 +10,7 @@ export type GameState = {
   turn: number,
   selection: Card[],
   currentPlayer?: Player,
+  currentElevated: number,
   getNextPlayers: () => number
   isGameActive: () => boolean
 }
@@ -24,7 +25,8 @@ export enum GameStateActionType {
   ResetGame,
   DrawCard,
   EditSelection,
-  PlaySelection
+  PlaySelection,
+  SetElevated,
 }
 
 export type GameStateAction = {

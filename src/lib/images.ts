@@ -57,6 +57,14 @@ export const imageStore: imageAsset[] = {
   path: "../../res/img/cards/2.jpg",
   res: require('../../res/img/cards/2.jpg'),
 },
+"200": {
+  path: "../../res/img/cards/200.jpg",
+  res: require('../../res/img/cards/200.jpg'),
+},
+"201": {
+  path: "../../res/img/cards/201.jpg",
+  res: require('../../res/img/cards/201.jpg'),
+},
 "3": {
   path: "../../res/img/cards/3.jpg",
   res: require('../../res/img/cards/3.jpg'),

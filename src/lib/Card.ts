@@ -8,7 +8,7 @@ export enum cardType {
   "Effect"
 }
 
-export type cardAttr = Omit<Card, "getInfo">;
+export type cardAttr = Omit<Card, "getInfo" | "hasTag">;
 
 export class Card {
   id: number;
@@ -17,6 +17,7 @@ export class Card {
   slug: string;
   text: string;
   claps: number;
+  tags: string[];
   cards?: number[];
 
   constructor({ id, type, name, slug, text, claps, cards }: cardAttr) {
@@ -27,6 +28,7 @@ export class Card {
     this.slug = slug;
     this.text = text;
     this.cards = cards;
+    this.tags = [];
   }
 
   /**
@@ -36,6 +38,15 @@ export class Card {
    */
   getInfo(): string {
     return `${this.id}: ${this.name} - ${this.text}`;
+  }
+
+  /**
+   *
+   * @param tag Check if the card has a tag
+   * @returns boolean
+   */
+  hasTag(tag: string): boolean {
+    return this.tags.indexOf(tag) >= 0;
   }
 
   /**

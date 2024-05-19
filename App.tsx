@@ -14,6 +14,7 @@ import { RootTabParamList } from "./src/types";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { CardScreen } from "./src/screens/CardScreen";
 import { GameStateProvider } from "./src/context/GameState";
+import { ModalProvider } from "./src/context/Modal";
 
 function LogoTitle(): React.JSX.Element {
   return (
@@ -35,12 +36,14 @@ function App(): React.JSX.Element {
 
   return (
     <GameStateProvider>
-      <NavigationContainer>
-        <Tab.Navigator initialRouteName="Home" screenOptions={{ headerTitle: () => <LogoTitle /> }}>
-          <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Text>@</Text> }} />
-          <Tab.Screen name="Card" component={CardScreen} options={{ tabBarIcon: (props) => <Text style={{ color: props.color }}>%</Text> }}/>
-        </Tab.Navigator>
-      </NavigationContainer>
+      <ModalProvider>
+        <NavigationContainer>
+          <Tab.Navigator initialRouteName="Home" screenOptions={{ headerTitle: () => <LogoTitle /> }}>
+            <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Text>@</Text> }} />
+            <Tab.Screen name="Card" component={CardScreen} options={{ tabBarIcon: (props) => <Text style={{ color: props.color }}>%</Text> }}/>
+          </Tab.Navigator>
+        </NavigationContainer>
+      </ModalProvider>
     </GameStateProvider>
   );
 }

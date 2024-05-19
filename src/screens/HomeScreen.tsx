@@ -8,10 +8,13 @@ import { useContext, useState } from "react";
 import { Card } from "../lib/Card";
 import { MiniCard } from "../components/MiniCard";
 import { GameContext } from "../context/GameState";
+import { ModalContext } from "../context/Modal";
+import { BigCard } from "../components/BigCard";
 
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Home">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
   const { state, dispatch } = useContext(GameContext);
+  const modal = useContext(ModalContext);
 
 
   const playSelection = () => {
@@ -26,8 +29,10 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
 
   const drawCard = () => {
     setCanDraw(false);
-    dispatch({ type: GameStateActionType.DrawCard, call: (data) => {
-      console.log("drawCard: dispatch returned this", data);
+    dispatch({ type: GameStateActionType.DrawCard, call: (card) => {
+      console.log("drawCard: dispatch returned this", card);
+      modal.setContent(<BigCard card={card} />);
+      modal.setModalVisible(true);
     } });
   };
 
@@ -41,6 +46,11 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     dispatch({ type: GameStateActionType.ResetGame, data: {} });
   };
 
+  const setElevated = (index: number) => {
+    if (index === state.currentElevated) index = -1;
+    dispatch({ type: GameStateActionType.SetElevated, data: { index } });
+  };
+
   return (
     <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
       <Section
@@ -48,7 +58,9 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
         text={""}
       >
         {state.players.map((p: Player, i: number) =>
-          <Text key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
+          <Text
+            onPress={() => modal.setModalVisible(true)}
+            key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
         <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
 
         {state.isGameActive() ? (canDraw
@@ -69,9 +81,8 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
                 key={i}
                 card={card}
                 index={i}
-                elevated={false}
                 selected={state.selection.indexOf(card) >= 0}
-                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card })}
+                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card }) }
                 onLongPress={() => editSelection(card)}
               />
             )}

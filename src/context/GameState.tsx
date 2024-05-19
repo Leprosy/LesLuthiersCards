@@ -11,6 +11,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
   const initialState: GameState = {
     players: [],
     turn: 0,
+    currentElevated: -1,
     selection: [],
 
     // TODO: State methods - better way to implement this?
@@ -37,6 +38,11 @@ export function GameStateProvider({ children }: PropsWithChildren) {
       case GameStateActionType.DrawCard: { // TODO not pure?
         const card = Card.getRandomCard();
         state.currentPlayer?.cards.push(card);
+
+        if (action.call) {
+          action.call(card);
+        }
+
         return { ...state };
       }
 
@@ -78,11 +84,14 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         }
 
         if (action.call) {
-          console.log("Calling CB, total", total);
           action.call(total);
         }
 
         return { ...state, selection };
+      }
+
+      case GameStateActionType.SetElevated: {
+        return { ...state, currentElevated: action.data.index };
       }
 
       default:

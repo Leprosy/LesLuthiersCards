@@ -9,7 +9,8 @@ const luthiers: cardAttr[] = [
     name: "Marcos Mundstock",
     slug: "Marcos",
     text: "Marcos Mundstock Finkelstein. Actor, locutor, creativo publicitario. Humorista. Futbolista aficionado.",
-    claps: 4
+    claps: 4,
+    tags: ["marcos"]
   },
   {
     id: 1,
@@ -18,6 +19,8 @@ const luthiers: cardAttr[] = [
     slug: "Carlitos",
     text: "Concertista de piano. Compositor y arreglador. Varias veces premiado por partituras para obras de teatro.",
     claps: 4
+    ,
+    tags: []
   },
   {
     id: 2,
@@ -26,6 +29,7 @@ const luthiers: cardAttr[] = [
     slug: "Jorge",
     text: "Guitarra",
     claps: 4
+    , tags: []
   },
   {
     id: 3,
@@ -34,6 +38,7 @@ const luthiers: cardAttr[] = [
     slug: "Neneco",
     text: "Payaso",
     claps: 4
+    , tags: []
   },
   {
     id: 4,
@@ -41,7 +46,8 @@ const luthiers: cardAttr[] = [
     name: "Carlos Lopez Puccio",
     slug: "Puccio",
     text: "Canoso",
-    claps: 4
+    claps: 4,
+    tags: ["puccio"]
   }
 ];
 
@@ -55,6 +61,7 @@ const instruments: cardAttr[] = [
     slug: "Bass Pipe",
     text: "Para que sus notas vibren, cuenta con escape libre.",
     claps: 4
+    , tags: []
   },
   {
     id: 11,
@@ -63,6 +70,7 @@ const instruments: cardAttr[] = [
     slug: "Latín",
     text: "Stradivarius lo emplea para envasar obleas.",
     claps: 4
+    , tags: ["cuerda"]
   },
   {
     id: 12,
@@ -71,6 +79,7 @@ const instruments: cardAttr[] = [
     slug: "Piano",
     text: "Instrumento musical de cuerdas metálicas dispuestas dentro de una caja de resonancia, que son golpeadas por macillos accionados desde un teclado",
     claps: 4
+    , tags: []
   },
   {
     id: 13,
@@ -79,6 +88,7 @@ const instruments: cardAttr[] = [
     slug: "Tubófono",
     text: "Con su dilema infinito, to be or not tubito.",
     claps: 4
+    , tags: []
   },
   {
     id: 14,
@@ -87,6 +97,7 @@ const instruments: cardAttr[] = [
     slug: "Cellato",
     text: "En el cuarteto de cuerdas luthierano es el instrumento que parodia al violoncello",
     claps: 4
+    , tags: ["cuerda"]
   }
 ];
 
@@ -101,6 +112,7 @@ const songs: cardAttr[] = [
     text: "El presente recital de Les Luthiers continúa con el Concierto para piano y orquesta, opus 57, en re menor... en re mayor... en re menor, mayormente, del compositor eslavo Sergei Dimitri... Mm... mm... mm...Mpkstroff.",
     claps: 30,
     cards: [1, 12]
+    , tags: []
   },
   {
     id: 101,
@@ -110,6 +122,7 @@ const songs: cardAttr[] = [
     text: "Johann Sebastian Mastropiero dedicó su divertimento matemático, op. 48, el Teorema de Thales, a la condesa Shortshot",
     claps: 15,
     cards: [2, 4, 13, 14]
+    , tags: []
   },
   {
     id: 102,
@@ -119,6 +132,7 @@ const songs: cardAttr[] = [
     text: "Les Luthiers continúan su recital de esta noche interpretando, de Johann Sebastian Mastropiero, ... bueno, La bella y graciosa moza... bla bla bla... la colgó de un abedul",
     claps: 10,
     cards: [0, 11]
+    , tags: []
   },
   {
     id: 103,
@@ -128,6 +142,7 @@ const songs: cardAttr[] = [
     text: "...que te parió",
     claps: 5,
     cards: [0, 3]
+    , tags: []
   },
   {
     id: 104,
@@ -137,6 +152,7 @@ const songs: cardAttr[] = [
     text: "Hippie",
     claps: 5,
     cards: [2, 4]
+    , tags: []
   },
   {
     id: 105,
@@ -146,8 +162,34 @@ const songs: cardAttr[] = [
     text: "1490",
     claps: 5,
     cards: [3]
+    , tags: []
   },
 
 ];
 
-export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs];
+// tags: [tag-affected, all|own|other, claps-added]
+// if claps < 0, card removed
+const effects: cardAttr[] = [
+  {
+    id: 200,
+    type: cardType.Effect,
+    name: "Temperatura alta en el teatro",
+    slug: "Temperatura alta",
+    text: "¡Los instrumentos de cuerda se han desafinado!",
+    claps: 0,
+    cards: [],
+    tags: ["cuerda", "all", "-100"]
+  },
+  {
+    id: 201,
+    type: cardType.Effect,
+    name: "Pánico Escénico",
+    slug: "Pánico",
+    text: "Marcos ha sufrido pánico escénico... :(",
+    claps: 0,
+    cards: [],
+    tags: ["marcos", "all", "-100"]
+  },
+];
+
+export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs, ...effects];
