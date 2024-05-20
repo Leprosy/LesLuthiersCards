@@ -8,7 +8,7 @@ import { imageStore } from "../lib/images";
 import { MiniCard } from "../components/MiniCard";
 import { Card } from "../lib/Card/Card";
 
-export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Card">): React.JSX.Element {
+export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Cartas">): React.JSX.Element {
   const theme = useColorScheme() || "light";
   const card = route.params?.card;
 
@@ -36,7 +36,7 @@ export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Ca
         :
 
         <Section style={{ flex: 5 }}
-          title="Card collection"
+          title="Cartas"
           text="..." />
       }
     </SafeAreaView>

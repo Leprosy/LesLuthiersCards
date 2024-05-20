@@ -15,6 +15,7 @@ import { HomeScreen } from "./src/screens/HomeScreen";
 import { CardScreen } from "./src/screens/CardScreen";
 import { GameStateProvider } from "./src/context/GameState/GameState";
 import { ModalProvider } from "./src/context/Modal";
+import { GameScreen } from "./src/screens/GameScreen";
 
 function LogoTitle(): React.JSX.Element {
   return (
@@ -38,9 +39,10 @@ function App(): React.JSX.Element {
     <ModalProvider>
       <GameStateProvider>
         <NavigationContainer>
-          <Tab.Navigator initialRouteName="Home" screenOptions={{ headerTitle: () => <LogoTitle /> }}>
-            <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Text>@</Text> }} />
-            <Tab.Screen name="Card" component={CardScreen} options={{ tabBarIcon: (props) => <Text style={{ color: props.color }}>%</Text> }}/>
+          <Tab.Navigator initialRouteName="Inicio" screenOptions={{ headerTitle: () => <LogoTitle /> }}>
+            <Tab.Screen name="Inicio" component={HomeScreen} options={{ tabBarIcon: () => <Text>@</Text> }} />
+            <Tab.Screen name="Juego" component={GameScreen} options={{ tabBarIcon: () => <Text>$</Text> }} />
+            <Tab.Screen name="Cartas" component={CardScreen} options={{ tabBarIcon: (props) => <Text style={{ color: props.color }}>%</Text> }}/>
           </Tab.Navigator>
         </NavigationContainer>
       </GameStateProvider>

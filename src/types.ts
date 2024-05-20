@@ -2,8 +2,9 @@ import { ImageSourcePropType } from "react-native";
 import { Card } from "./lib/Card/Card";
 
 export type RootTabParamList = {
-  Home: undefined;
-  Card: { card: Card };
+  Inicio: undefined;
+  Juego: undefined;
+  Cartas: { card: Card };
 };
 
 export type imageAsset = {
