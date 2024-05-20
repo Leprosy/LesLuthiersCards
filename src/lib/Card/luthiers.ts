@@ -1,6 +1,4 @@
-import { cardAttr, cardType } from "../Card";
-
-
+import { cardAttr, cardType } from "./Card";
 
 const luthiers: cardAttr[] = [
   {

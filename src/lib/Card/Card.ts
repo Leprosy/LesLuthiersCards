@@ -1,5 +1,5 @@
-import { cards } from "./cards/luthiers";
-import { arrRand } from "./utils";
+import { cards } from "./luthiers";
+import { arrRand } from "../utils";
 
 export enum cardType {
   "Instrument",

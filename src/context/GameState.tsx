@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, createContext, useReducer } from "react";
 import { GameContextState, GameState, GameStateAction, GameStateActionType } from "../types";
 import { Player } from "../lib/Player";
-import { Card, cardType } from "../lib/Card";
+import { Card, cardType } from "../lib/Card/Card";
 
 export const GameContext = createContext<GameContextState>({} as GameContextState);
 
@@ -91,7 +91,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         }
 
         if (action.call) {
-          action.call(card);
+          action.call(card); // TODO: to fix the render while updating warning, try adding lastCard to reducer state
         }
 
         return { ...state };

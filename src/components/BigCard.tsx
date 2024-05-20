@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { Card } from "../lib/Card";
+import { Card } from "../lib/Card/Card";
 import { imageStore } from "../lib/images";
 
 type BigCardProps = {

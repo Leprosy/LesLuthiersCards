@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from "react-native";
-import { Card } from "./lib/Card";
+import { Card } from "./lib/Card/Card";
 import { Player } from "./lib/Player";
 
 /**

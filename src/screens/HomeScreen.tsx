@@ -5,7 +5,7 @@ import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
 import { useContext, useState } from "react";
-import { Card } from "../lib/Card";
+import { Card } from "../lib/Card/Card";
 import { MiniCard } from "../components/MiniCard";
 import { GameContext } from "../context/GameState";
 import { ModalContext } from "../context/Modal";

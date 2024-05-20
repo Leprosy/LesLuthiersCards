@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
-import { Card } from "../lib/Card";
+import { Card } from "../lib/Card/Card";
 import { imageStore } from "../lib/images";
 
 type MiniCardProps = {

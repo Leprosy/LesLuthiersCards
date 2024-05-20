@@ -6,7 +6,7 @@ import { Section } from "../components/Section";
 import { getSlug } from "../lib/utils";
 import { imageStore } from "../lib/images";
 import { MiniCard } from "../components/MiniCard";
-import { Card } from "../lib/Card";
+import { Card } from "../lib/Card/Card";
 
 export function CardScreen({ route }: BottomTabScreenProps<RootTabParamList, "Card">): React.JSX.Element {
   const theme = useColorScheme() || "light";
