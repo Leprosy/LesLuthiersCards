@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, createContext, useReducer } from "react";
-import { GameContextState, GameState, GameStateAction, GameStateActionType } from "../types";
-import { Player } from "../lib/Player";
-import { Card, cardType } from "../lib/Card/Card";
+import { GameContextState, GameState, GameStateAction, GameStateActionType } from "./types";
+import { Player } from "../../lib/Player";
+import { Card, cardType } from "../../lib/Card/Card";
 
 export const GameContext = createContext<GameContextState>({} as GameContextState);
 

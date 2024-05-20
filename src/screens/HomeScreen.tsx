@@ -7,7 +7,7 @@ import { Player } from "../lib/Player";
 import { useContext, useState } from "react";
 import { Card } from "../lib/Card/Card";
 import { MiniCard } from "../components/MiniCard";
-import { GameContext } from "../context/GameState";
+import { GameContext } from "../context/GameState/GameState";
 import { ModalContext } from "../context/Modal";
 import { BigCard } from "../components/BigCard";
 

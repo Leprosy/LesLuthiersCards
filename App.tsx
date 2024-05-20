@@ -13,7 +13,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { RootTabParamList } from "./src/types";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { CardScreen } from "./src/screens/CardScreen";
-import { GameStateProvider } from "./src/context/GameState";
+import { GameStateProvider } from "./src/context/GameState/GameState";
 import { ModalProvider } from "./src/context/Modal";
 
 function LogoTitle(): React.JSX.Element {
