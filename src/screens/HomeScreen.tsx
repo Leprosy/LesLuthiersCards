@@ -1,5 +1,5 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Alert, Button, SafeAreaView, Text, View } from "react-native";
+import { Alert, Button, SafeAreaView, Text, TextInput, View } from "react-native";
 import { GameStateActionType, RootTabParamList } from "../types";
 import { colors } from "../const/styles";
 import { Section } from "../components/Section";
@@ -14,6 +14,7 @@ import { BigCard } from "../components/BigCard";
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Home">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
   const { state, dispatch } = useContext(GameContext);
+  const [cardId, setCardId] = useState(-1);
   const modal = useContext(ModalContext);
 
 
@@ -29,7 +30,7 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
 
   const drawCard = () => {
     setCanDraw(false);
-    dispatch({ type: GameStateActionType.DrawCard, call: (card) => {
+    dispatch({ type: GameStateActionType.DrawCard, data: { cardId }, call: (card) => {
       console.log("drawCard: dispatch returned this", card);
       modal.setContent(<BigCard card={card} />);
       modal.setModalVisible(true);
@@ -46,11 +47,6 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     dispatch({ type: GameStateActionType.ResetGame, data: {} });
   };
 
-  const setElevated = (index: number) => {
-    if (index === state.currentElevated) index = -1;
-    dispatch({ type: GameStateActionType.SetElevated, data: { index } });
-  };
-
   return (
     <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
       <Section
@@ -64,7 +60,8 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
         <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
 
         {state.isGameActive() ? (canDraw
-          ? <Button title="Sacar carta" onPress={drawCard}></Button>
+          ? <><Button title="Sacar carta" onPress={drawCard}></Button>
+            <TextInput value={`${cardId}`} keyboardType={"decimal-pad"} style={{ fontSize: 10 }} onChange={(data) => setCardId(data.nativeEvent.text)} /></>
           : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
 
         {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button> : null}

@@ -20,7 +20,7 @@ const luthiers: cardAttr[] = [
     text: "Concertista de piano. Compositor y arreglador. Varias veces premiado por partituras para obras de teatro.",
     claps: 4
     ,
-    tags: []
+    tags: ["carlitos"]
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const luthiers: cardAttr[] = [
     slug: "Jorge",
     text: "Guitarra",
     claps: 4
-    , tags: []
+    , tags: ["jorge"]
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const luthiers: cardAttr[] = [
     slug: "Neneco",
     text: "Payaso",
     claps: 4
-    , tags: []
+    , tags: ["neneco"]
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const instruments: cardAttr[] = [
     slug: "Bass Pipe",
     text: "Para que sus notas vibren, cuenta con escape libre.",
     claps: 4
-    , tags: []
+    , tags: ["viento"]
   },
   {
     id: 11,
@@ -79,7 +79,7 @@ const instruments: cardAttr[] = [
     slug: "Piano",
     text: "Instrumento musical de cuerdas metálicas dispuestas dentro de una caja de resonancia, que son golpeadas por macillos accionados desde un teclado",
     claps: 4
-    , tags: []
+    , tags: ["piano"]
   },
   {
     id: 13,
@@ -88,7 +88,7 @@ const instruments: cardAttr[] = [
     slug: "Tubófono",
     text: "Con su dilema infinito, to be or not tubito.",
     claps: 4
-    , tags: []
+    , tags: ["viento"]
   },
   {
     id: 14,
@@ -175,7 +175,7 @@ const effects: cardAttr[] = [
     type: cardType.Effect,
     name: "Temperatura alta en el teatro",
     slug: "Temperatura alta",
-    text: "¡Los instrumentos de cuerda se han desafinado!",
+    text: "¡Todos los instrumentos de cuerda se han desafinado!",
     claps: 0,
     cards: [],
     tags: ["cuerda", "all", "-100"]
@@ -185,10 +185,30 @@ const effects: cardAttr[] = [
     type: cardType.Effect,
     name: "Pánico Escénico",
     slug: "Pánico",
-    text: "Marcos ha sufrido pánico escénico... :(",
+    text: "¡Marcos ha sufrido pánico escénico! Todos los Marcos huyen despavoridos... :(",
     claps: 0,
     cards: [],
-    tags: ["marcos", "all", "-100"]
+    tags: ["marcos", "all", "-1000"]
+  },
+  {
+    id: 202,
+    type: cardType.Effect,
+    name: "Sabotaje",
+    slug: "Sabotaje",
+    text: "¡Has sabotado los pianos de tus rivales muajajaja!",
+    claps: 0,
+    cards: [],
+    tags: ["piano", "other", "-1000"]
+  },
+  {
+    id: 203,
+    type: cardType.Effect,
+    name: "Hepatitis",
+    slug: "Hepatitis",
+    text: "¡Puccio ha contraído hepatitis! Todos tus Puccios deben ir a reposar... :(",
+    claps: 0,
+    cards: [],
+    tags: ["puccio", "own", "-1000"]
   },
 ];
 

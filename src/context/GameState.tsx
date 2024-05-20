@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, createContext, useReducer } from "react";
 import { GameContextState, GameState, GameStateAction, GameStateActionType } from "../types";
 import { Player } from "../lib/Player";
-import { Card } from "../lib/Card";
+import { Card, cardType } from "../lib/Card";
 
 export const GameContext = createContext<GameContextState>({} as GameContextState);
 
@@ -36,8 +36,59 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         }
 
       case GameStateActionType.DrawCard: { // TODO not pure?
-        const card = Card.getRandomCard();
-        state.currentPlayer?.cards.push(card);
+        let card: Card;
+
+        if (action.data.cardId >= 0) {
+          console.log("Getting card", action.data.cardId);
+          card = Card.getCard(action.data.cardId) || Card.getRandomCard();
+        } else {
+          console.log("Getting random card");
+          card = Card.getRandomCard();
+        }
+
+        if (card.type != cardType.Effect) {
+          state.currentPlayer?.cards.push(card);
+        } else {
+          // Execute effect
+          const [tag, area, value] = card.tags;
+          let affectedPlayers: Player[] = [];
+
+          console.log("Executing effect", card, { tag, area, value });
+
+          if (area == "all") {
+            affectedPlayers = state.players;
+          } else if (area == "own") {
+            affectedPlayers = [state.currentPlayer!];
+          } else { // TODO: implement "other"
+            state.players.forEach((player: Player) => {
+              console.log("Checking P-C", player, state.currentPlayer);
+              if (player.name !== state.currentPlayer?.name) {
+                affectedPlayers.push(player);
+              }
+            });
+          }
+
+          console.log("affectedPlayers", affectedPlayers);
+
+          affectedPlayers.forEach((player: Player) => {
+            console.log("cards of", player.name);
+            console.log(JSON.stringify(player.cards));
+            console.log("===");
+
+            player.cards.forEach((card: Card) => {
+              console.log(card.getInfo());
+
+              if (card.hasTag(tag)) {
+                card.claps += parseInt(value);
+              }
+            });
+
+            player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
+
+            console.log(JSON.stringify(player.cards));
+            console.log("===");
+          });
+        }
 
         if (action.call) {
           action.call(card);

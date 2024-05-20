@@ -20,7 +20,7 @@ export class Card {
   tags: string[];
   cards?: number[];
 
-  constructor({ id, type, name, slug, text, claps, cards }: cardAttr) {
+  constructor({ id, type, name, slug, text, claps, cards, tags }: cardAttr) {
     this.id = id;
     this.type = type;
     this.claps = claps;
@@ -28,7 +28,7 @@ export class Card {
     this.slug = slug;
     this.text = text;
     this.cards = cards;
-    this.tags = [];
+    this.tags = tags;
   }
 
   /**
@@ -37,7 +37,7 @@ export class Card {
    * @returns string
    */
   getInfo(): string {
-    return `${this.id}: ${this.name} - ${this.text}`;
+    return `${this.id}: ${this.name} - ${this.tags} - ${this.claps}`;
   }
 
   /**
