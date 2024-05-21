@@ -39,10 +39,8 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         let card: Card;
 
         if (action.data.cardId >= 0) {
-          console.log("Getting card", action.data.cardId);
           card = Card.getCard(action.data.cardId) || Card.getRandomCard();
         } else {
-          console.log("Getting random card");
           card = Card.getRandomCard();
         }
 
@@ -55,6 +53,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
 
           console.log("Executing effect", card, { tag, area, value });
 
+          // Compute affected players
           if (area == "all") {
             affectedPlayers = state.players;
           } else if (area == "own") {
@@ -70,23 +69,32 @@ export function GameStateProvider({ children }: PropsWithChildren) {
 
           console.log("affectedPlayers", affectedPlayers);
 
+          // Applying effect
           affectedPlayers.forEach((player: Player) => {
-            console.log("cards of", player.name);
-            console.log(JSON.stringify(player.cards));
-            console.log("===");
+            // Effect on card
+            if (tag !== "") {
+              console.log("cards of", player.name);
+              console.log(JSON.stringify(player.cards));
+              console.log("===");
 
-            player.cards.forEach((card: Card) => {
-              console.log(card.getInfo());
+              player.cards.forEach((card: Card) => {
+                console.log(card.getInfo());
 
-              if (card.hasTag(tag)) {
-                card.claps += parseInt(value);
-              }
-            });
+                if (card.hasTag(tag)) {
+                  card.claps += parseInt(value);
+                }
+              });
 
-            player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
+              player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
 
-            console.log(JSON.stringify(player.cards));
-            console.log("===");
+              console.log(JSON.stringify(player.cards));
+              console.log("===");
+            } else { // Effect on player
+              affectedPlayers.forEach((player: Player) => {
+                console.log("Player gets claps. P/C", { affectedPlayers, value });
+                player.claps = player.claps + parseInt(value);
+              });
+            }
           });
         }
 

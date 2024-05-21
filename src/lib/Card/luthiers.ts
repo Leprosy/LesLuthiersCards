@@ -208,6 +208,26 @@ const effects: cardAttr[] = [
     cards: [],
     tags: ["puccio", "own", "-1000"]
   },
+  {
+    id: 204,
+    type: cardType.Effect,
+    name: "Improvisación Perfecta",
+    slug: "Improvisación",
+    text: "Marcos y Daniel se han salido de libreto, razonaron por caminos sinuosos, reflexionaron fuera del recipiente y al público le encantó. ¡Te has ganado 50 aplausos!",
+    claps: 0,
+    cards: [],
+    tags: ["", "own", "50"]
+  },
+  {
+    id: 205,
+    type: cardType.Effect,
+    name: "Amnesia Repentina",
+    slug: "Amnesia",
+    text: "Alguien ha olvidado el texto. Qué podemos decir...qué podemos decir...QUÉ PODEMOS DECIR. ¡Has perdido 50 aplausos!",
+    claps: 0,
+    cards: [],
+    tags: ["", "own", "-50"]
+  },
 ];
 
 export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs, ...effects];

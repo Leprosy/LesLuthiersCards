@@ -62,7 +62,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
 
         {state.isGameActive() ? (canDraw
           ? <><Button title="Sacar carta" onPress={drawCard}></Button>
-            <TextInput value={`${cardId}`} keyboardType={"decimal-pad"} style={{ fontSize: 10 }} onChange={(data) => setCardId(data.nativeEvent.text)} /></>
+            <TextInput value={`${cardId}`} keyboardType={"decimal-pad"} style={{ fontSize: 10, display: "flex" }} onChange={(data) => setCardId(data.nativeEvent.text)} /></>
           : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
 
         {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button> : null}
@@ -80,7 +80,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
                 card={card}
                 index={i}
                 selected={state.selection.indexOf(card) >= 0}
-                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Card", { card }) }
+                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Cartas", { card }) }
                 onLongPress={() => editSelection(card)}
               />
             )}
