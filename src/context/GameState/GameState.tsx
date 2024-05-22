@@ -44,9 +44,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
           card = Card.getRandomCard();
         }
 
-        if (card.type != cardType.Effect) {
-          state.currentPlayer?.cards.push(card);
-        } else {
+        if (card.type == cardType.Effect) {
           // Execute effect
           const [tag, area, value] = card.tags;
           let affectedPlayers: Player[] = [];
@@ -96,12 +94,21 @@ export function GameStateProvider({ children }: PropsWithChildren) {
               });
             }
           });
+        } else if (card.type == cardType.Trivia) {
+          console.log("Executing trivia", card);
+        } else {
+          state.currentPlayer?.cards.push(card);
         }
 
         if (action.call) {
           action.call(card); // TODO: to fix the render while updating warning, try adding lastCard to reducer state
         }
 
+        return { ...state };
+      }
+
+      case GameStateActionType.AddClapsToCurrentPlayer: {
+        state.currentPlayer!.claps += action.data.claps;
         return { ...state };
       }
 

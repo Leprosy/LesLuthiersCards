@@ -5,12 +5,13 @@ import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
 import { useContext, useState } from "react";
-import { Card } from "../lib/Card/Card";
+import { Card, cardType } from "../lib/Card/Card";
 import { MiniCard } from "../components/MiniCard";
 import { GameContext } from "../context/GameState/GameState";
 import { ModalContext } from "../context/Modal";
 import { BigCard } from "../components/BigCard";
 import { GameStateActionType } from "../context/GameState/types";
+import { TriviaDialog } from "../components/TriviaDialog";
 
 export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Juego">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -33,7 +34,21 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     setCanDraw(false);
     dispatch({ type: GameStateActionType.DrawCard, data: { cardId }, call: (card) => {
       console.log("drawCard: dispatch returned this", card);
-      modal.setContent(<BigCard card={card} />);
+
+      if (card.type === cardType.Trivia) {
+        modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => {
+          if (value) {
+            Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`);
+            console.log("Player/won", state.currentPlayer, card.claps);
+            dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
+          } else {
+            Alert.alert("Cuec", "Respuesta incorrecta");
+          }
+        }} />);
+      } else {
+        modal.setContent(<BigCard card={card} />);
+      }
+
       modal.setModalVisible(true);
     } });
   };
@@ -56,7 +71,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
       >
         {state.players.map((p: Player, i: number) =>
           <Text
-            onPress={() => modal.setModalVisible(true)}
+            onPress={() => { modal.setModalVisible(true); }}
             key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
         <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
 

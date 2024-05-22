@@ -4,7 +4,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, Vi
 type ModalContextState = {
   modalVisible: boolean,
   setContent: (el: React.JSX.Element) => void,
-  setModalVisible: (vis: boolean) => void
+  setModalVisible: (vis: boolean) => void,
 };
 
 export const ModalContext = createContext<ModalContextState>({} as ModalContextState);
@@ -22,13 +22,16 @@ export function ModalProvider({ children }: PropsWithChildren) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          console.log("onRequestClose");
+          console.log("Modal dismissed: onRequestClose");
           setModalVisible(!modalVisible);
         }}>
         <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
-          onPressOut={() => { setModalVisible(false); }}
+          onPressOut={() => {
+            console.log("Modal dismissed: normal");
+            setModalVisible(!modalVisible);
+          }}
         >
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>

@@ -230,4 +230,68 @@ const effects: cardAttr[] = [
   },
 ];
 
-export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs, ...effects];
+const trivia: cardAttr[] = [
+  {
+    id: 301,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿En qué año Ernesto Acher se retiró de Les Luthiers?",
+    claps: 11,
+    cards: [],
+    tags: ["1986", "1989", "1988", "1991"]
+  },
+  {
+    id: 302,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿En qué año se funda Les Luthiers?",
+    claps: 20,
+    cards: [],
+    tags: ["1967", "1977", "1987", "1997"]
+  },
+  {
+    id: 303,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cómo se llama el primer espectáculo de la versión quinteto?",
+    claps: 5,
+    cards: [],
+    tags: ["Viegésimo Aniversario", "Grandes Hitos", "El reír de los Cantares", "Unen Canto con Humor"]
+  },
+  {
+    id: 304,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cómo se llamó la primera obra monovocálica de Les Luthiers?",
+    claps: 15,
+    cards: [],
+    tags: ["Miss Lilly Higgins", "Papa Garland", "Pepper Clemens", "Tía Ruperta"]
+  },
+  {
+    id: 305,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál es el nombre del actor que hace de oculista en la teleserie Alma de Corazón?",
+    claps: 20,
+    cards: [],
+    tags: ["Juan Peñalba", "Isaías Contreras", "Nacho Gutierrez", "Francisco Poletti"]
+  },
+  {
+    id: 306,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Qué instrumento representa al Pajarillo Amarillo en Teresa y el Oso?",
+    claps: 30,
+    cards: [],
+    tags: ["Tubófono Silicónico", "Tubófono Parafínico", "Tubófono Natural", "Tubófono da Testa"]
+  }
+];
+
+
+export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs, ...effects, ...trivia];

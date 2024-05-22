@@ -5,7 +5,8 @@ export enum cardType {
   "Instrument",
   "Luthier",
   "Song",
-  "Effect"
+  "Effect",
+  "Trivia"
 }
 
 export type cardAttr = Omit<Card, "getInfo" | "hasTag">;

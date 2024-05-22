@@ -23,6 +23,7 @@ export enum GameStateActionType {
   EditSelection,
   PlaySelection,
   SetElevated,
+  AddClapsToCurrentPlayer,
 }
 
 export type GameStateAction = {
