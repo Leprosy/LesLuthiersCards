@@ -16,7 +16,7 @@ import { CardScreen } from "./src/screens/CardScreen";
 import { GameStateProvider } from "./src/context/GameState/GameState";
 import { ModalProvider } from "./src/context/Modal";
 import { GameScreen } from "./src/screens/GameScreen";
-import { MusicPlayer } from "./src/lib/Sound";
+import { SoundPlayer } from "./src/lib/Sound";
 
 function LogoTitle(): React.JSX.Element {
   return (
@@ -37,7 +37,7 @@ function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator<RootTabParamList>();
 
   useEffect(() => {
-    MusicPlayer.playMusic(["start"]);
+    SoundPlayer.playMusic(["start"]);
   }, []);
 
   return (

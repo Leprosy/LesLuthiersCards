@@ -1,11 +1,12 @@
 import Sound from "react-native-sound";
 
-export class MusicPlayer {
+export class SoundPlayer {
   private static music: Sound;
+  private static sfx: Sound;
 
   static stopMusic() {
     try {
-      MusicPlayer.music.stop(() => {
+      SoundPlayer.music.stop(() => {
         console.log("MusicPlayer: Music stopped");
       });
     } catch (e) {
@@ -13,19 +14,36 @@ export class MusicPlayer {
     }
   }
 
-  static playMusic(names: string[], index = 0) {
+  static playSfx(name: string) {
     Sound.setCategory("Playback");
-    MusicPlayer.stopMusic();
+    SoundPlayer.sfx = new Sound(`${name}.mp3`, Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.error("MusicPlayer: failed to load the sound", { name, error });
+        return;
+      }
 
-    MusicPlayer.music = new Sound(`${names[index]}.mp3`, Sound.MAIN_BUNDLE, (error) => {
+      SoundPlayer.sfx.play((success) => {
+        if (success) {
+          console.log("MusicPlayer: successfully finished playing sfx", name);
+        }
+      });
+    });
+  }
+
+  static playMusic(names: string[], volume = 1, index = 0) {
+    Sound.setCategory("Playback");
+    SoundPlayer.stopMusic();
+
+    SoundPlayer.music = new Sound(`${names[index]}.mp3`, Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.error("MusicPlayer: failed to load the sound", { names, error });
         return;
       }
 
-      MusicPlayer.music.play((success) => {
+      SoundPlayer.music.setVolume(volume);
+      SoundPlayer.music.play((success) => {
         if (success) {
-          console.log("MusicPlayer: successfully finished playing");
+          console.log("MusicPlayer: successfully finished playing music", names[index]);
 
           if (names.length > 1) {
             index = index + 1;
@@ -34,7 +52,7 @@ export class MusicPlayer {
               index = 0;
             }
 
-            MusicPlayer.playMusic(names, index + 1);
+            SoundPlayer.playMusic(names, volume, index + 1);
           }
         }
       });

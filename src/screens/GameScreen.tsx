@@ -12,7 +12,7 @@ import { ModalContext } from "../context/Modal";
 import { BigCard } from "../components/BigCard";
 import { GameStateActionType } from "../context/GameState/types";
 import { TriviaDialog } from "../components/TriviaDialog";
-import { MusicPlayer } from "../lib/Sound";
+import { SoundPlayer } from "../lib/Sound";
 
 export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Juego">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -39,10 +39,12 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
       if (card.type === cardType.Trivia) {
         modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => {
           if (value) {
+            SoundPlayer.playSfx("clap");
             Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`);
             console.log("Player/won", state.currentPlayer, card.claps);
             dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
           } else {
+            SoundPlayer.playSfx("boo");
             Alert.alert("Cuec", "Respuesta incorrecta");
           }
         }} />);
@@ -65,7 +67,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   };
 
   useEffect(() => {
-    MusicPlayer.playMusic(["bg0", "bg1", "bg2"]);
+    SoundPlayer.playMusic(["bg0", "bg1", "bg2"], 0.1);
   }, []);
 
   return (
