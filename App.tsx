@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Text, View } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -16,6 +16,7 @@ import { CardScreen } from "./src/screens/CardScreen";
 import { GameStateProvider } from "./src/context/GameState/GameState";
 import { ModalProvider } from "./src/context/Modal";
 import { GameScreen } from "./src/screens/GameScreen";
+import { MusicPlayer } from "./src/lib/Sound";
 
 function LogoTitle(): React.JSX.Element {
   return (
@@ -34,6 +35,10 @@ function LogoTitle(): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator<RootTabParamList>();
+
+  useEffect(() => {
+    MusicPlayer.playMusic(["start"]);
+  }, []);
 
   return (
     <ModalProvider>

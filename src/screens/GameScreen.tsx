@@ -4,7 +4,7 @@ import { RootTabParamList } from "../types";
 import { colors } from "../const/styles";
 import { Section } from "../components/Section";
 import { Player } from "../lib/Player";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card, cardType } from "../lib/Card/Card";
 import { MiniCard } from "../components/MiniCard";
 import { GameContext } from "../context/GameState/GameState";
@@ -12,6 +12,7 @@ import { ModalContext } from "../context/Modal";
 import { BigCard } from "../components/BigCard";
 import { GameStateActionType } from "../context/GameState/types";
 import { TriviaDialog } from "../components/TriviaDialog";
+import { MusicPlayer } from "../lib/Sound";
 
 export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Juego">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -62,6 +63,10 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     setCanDraw(true);
     dispatch({ type: GameStateActionType.ResetGame, data: {} });
   };
+
+  useEffect(() => {
+    MusicPlayer.playMusic(["bg0", "bg1", "bg2"]);
+  }, []);
 
   return (
     <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
