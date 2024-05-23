@@ -37,7 +37,7 @@ function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator<RootTabParamList>();
 
   useEffect(() => {
-    SoundPlayer.playMusic(["start"]);
+    SoundPlayer.playMusic(["start"], 0.5);
   }, []);
 
   return (

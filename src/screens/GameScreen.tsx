@@ -1,8 +1,7 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { Alert, Button, SafeAreaView, Text, TextInput, View } from "react-native";
 import { RootTabParamList } from "../types";
-import { colors } from "../const/styles";
-import { Section } from "../components/Section";
+import { Colors } from "../const/styles";
 import { Player } from "../lib/Player";
 import { useContext, useEffect, useState } from "react";
 import { Card, cardType } from "../lib/Card/Card";
@@ -13,6 +12,7 @@ import { BigCard } from "../components/BigCard";
 import { GameStateActionType } from "../context/GameState/types";
 import { TriviaDialog } from "../components/TriviaDialog";
 import { SoundPlayer } from "../lib/Sound";
+import { PlayButtons } from "../components/PlayButtons";
 
 export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Juego">): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -34,14 +34,11 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   const drawCard = () => {
     setCanDraw(false);
     dispatch({ type: GameStateActionType.DrawCard, data: { cardId }, call: (card) => {
-      console.log("drawCard: dispatch returned this", card);
-
       if (card.type === cardType.Trivia) {
         modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => {
           if (value) {
             SoundPlayer.playSfx("clap");
             Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`);
-            console.log("Player/won", state.currentPlayer, card.claps);
             dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
           } else {
             SoundPlayer.playSfx("boo");
@@ -71,44 +68,42 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   }, []);
 
   return (
-    <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
-      <Section
-        title="Juego"
-        text={""}
-      >
-        {state.players.map((p: Player, i: number) =>
-          <Text
-            onPress={() => { modal.setModalVisible(true); }}
-            key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
-        <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.generalBg }}>
+      {/* Player scores */}
+      {state.players.map((p: Player, i: number) =>
+        <Text
+          onPress={() => { modal.setModalVisible(true); }}
+          key={i}>{p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "<<" : ""}</Text>)}
 
-        {state.isGameActive() ? (canDraw
-          ? <><Button title="Sacar carta" onPress={drawCard}></Button>
-            <TextInput value={`${cardId}`} keyboardType={"decimal-pad"} style={{ fontSize: 10, display: "flex" }} onChange={(data) => setCardId(data.nativeEvent.text)} /></>
-          : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
 
-        {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button> : null}
-      </Section>
+      {/* Buttons */}
+      <PlayButtons />
 
+      <Button title={`Comenzar con ${state.getNextPlayers()} jugadores`} onPress={resetGame}></Button>
+
+      {state.isGameActive() ? (canDraw
+        ? <><Button title="Sacar carta" onPress={drawCard}></Button>
+          <TextInput value={`${cardId}`} keyboardType={"decimal-pad"} style={{ fontSize: 10, display: "flex" }} onChange={(data) => setCardId(data.nativeEvent.text)} /></>
+        : <Button title="Pasar turno" onPress={nextTurn}></Button>) : null}
+      {state.isGameActive() ? <Button disabled={state.selection.length < 2} title="Jugar seleccion" onPress={playSelection}></Button> : null}
+
+
+      {/* Play area */}
       {state.players.length > 1 ?
-        <Section
-          title={`Turno de ${state.currentPlayer?.name}`}
-          text={"..."}>
+        <View>
+          <Text>Turno de {state.currentPlayer?.name}</Text>
+          {state.currentPlayer?.cards.map((card: Card, i: number) =>
+            <MiniCard
+              key={i}
+              card={card}
+              index={i}
+              selected={state.selection.indexOf(card) >= 0}
+              onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Cartas", { card }) }
+              onLongPress={() => editSelection(card)}
+            />
+          )}
+        </View>
 
-          <View>
-            {state.currentPlayer?.cards.map((card: Card, i: number) =>
-              <MiniCard
-                key={i}
-                card={card}
-                index={i}
-                selected={state.selection.indexOf(card) >= 0}
-                onPress={() => state.selection.length > 0 ? editSelection(card) : navigation.navigate("Cartas", { card }) }
-                onLongPress={() => editSelection(card)}
-              />
-            )}
-          </View>
-
-        </Section>
         : null }
     </SafeAreaView>
   );

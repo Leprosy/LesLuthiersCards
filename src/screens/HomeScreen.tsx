@@ -1,14 +1,11 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { SafeAreaView, Text } from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text } from "react-native";
 import { RootTabParamList } from "../types";
-import { colors } from "../const/styles";
-import { Section } from "../components/Section";
 import { useContext } from "react";
-// import { GameContext } from "../context/GameState/GameState";
 import { ModalContext } from "../context/Modal";
+import { Colors } from "../const/styles";
 
 export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList, "Inicio">): React.JSX.Element {
-  // const { state, dispatch } = useContext(GameContext);
   const modal = useContext(ModalContext);
 
   const showCredits = () => {
@@ -22,15 +19,30 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   };
 
   return (
-    <SafeAreaView style={[{ flex: 1 }, colors["light"].app]}>
-      <Section
-        title="Juego de cartas de Les Luthiers"
-        text="creado por MR"
-      >
-        <Text style={{ marginBottom: 20 }}>-- Colocar imagen y música acá --</Text>
-        <Text style={{ fontSize: 20, fontWeight: 500 }} onPress={startGame}>Empezar juego</Text>
-        <Text style={{ fontSize: 20, fontWeight: 500 }} onPress={showCredits}>Créditos</Text>
-      </Section>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.generalBg }}>
+      <Image style={styles.image} source={require("../../res/img/splash/splash0.png")} />
+      <Text style={styles.option} onPress={startGame}>Empezar juego</Text>
+      <Text style={styles.option} onPress={showCredits}>Créditos</Text>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 300,
+    width: 300,
+    borderWidth: 5,
+    borderColor: "#000",
+    marginHorizontal: "auto",
+    marginVertical: 50
+  },
+
+  option: {
+    color: Colors.titleColor,
+    //fontFamily: "serif",
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 20,
+    textAlign: "center"
+  }
+});
