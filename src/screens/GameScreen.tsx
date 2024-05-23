@@ -33,11 +33,11 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.generalBg }}>
       {/* Player scores */}
-      <View style={{ flex: 1, backgroundColor: "#efe" }}>
-        <Text style={[gameStyles.normalText, gameStyles.textBold, gameStyles.textCenter]}>Marcador</Text>
+      <View style={{ flex: 1, backgroundColor: Colors.middleBg }}>
+        <Text style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textBold, gameStyles.textCenter]}>Marcador</Text>
         {state.players.map((p: Player, i: number) =>
           <Text
-            style={[gameStyles.normalText, gameStyles.textCenter]}
+            style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textCenter]}
             onPress={() => { modal.setModalVisible(true); }}
             key={i}>
             {i == state.turn ? "*" : ""} {p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "*" : ""}
@@ -46,8 +46,10 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
 
 
       {/* Play area */}
-      <View style={{ flex: 4, backgroundColor: "#eef" }}>
-        <Text style={[gameStyles.title, gameStyles.textCenter]}>Turno de {state.currentPlayer?.name}</Text>
+      <View style={{ flex: 4, backgroundColor: "#030" }}>
+        {state.players.length > 1
+          ? <Text style={[gameStyles.title, gameStyles.invertedText, gameStyles.textCenter]}>Turno de {state.currentPlayer?.name}</Text>
+          : null}
 
         {state.players.length > 1 ?
           <View style={{ marginTop: 20 }}>

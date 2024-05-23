@@ -4,7 +4,9 @@ export const Colors = {
   generalBg: "#ccc",
   textColor: "#000",
   titleColor: "#333",
-  buttonTextColor: "#fff"
+  buttonTextColor: "#fff",
+  middleBg: "#300",
+  secondBg: "#000",
 };
 
 export const gameStyles = StyleSheet.create({
@@ -18,18 +20,25 @@ export const gameStyles = StyleSheet.create({
 
   normalText: {
     color: Colors.textColor,
-    fontSize: 14
+    fontSize: 14,
+    marginBottom: 10,
+  },
+
+  invertedText: {
+    color: Colors.buttonTextColor,
   },
 
   title: {
     color: Colors.titleColor,
     fontWeight: "500",
-    fontSize: 20
+    fontSize: 20,
+    marginBottom: 10,
   },
 
   subtitle: {
     color: Colors.titleColor,
     fontWeight: "500",
-    fontSize: 18
+    fontSize: 18,
+    marginBottom: 10,
   }
 });
