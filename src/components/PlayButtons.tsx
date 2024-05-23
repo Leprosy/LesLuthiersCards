@@ -26,7 +26,7 @@ export function PlayButtons(): React.JSX.Element {
     setCanDraw(false);
     dispatch({ type: GameStateActionType.DrawCard, call: (card) => {
       if (card.type === cardType.Trivia) {
-        modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => { // TODO: Can we refactor this in a function?
+        modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => { // TODO: Can we refactor this in a function(dispatch)?
           if (value) {
             SoundPlayer.playSfx("clap");
             Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`); // TODO: Replace Alerts for Modals
@@ -56,6 +56,7 @@ export function PlayButtons(): React.JSX.Element {
   };
 
 
+
   // Element
   return (
     <View style={styles.container}>
@@ -78,7 +79,6 @@ export function PlayButtons(): React.JSX.Element {
         title="Jugar Selección"
         onPress={playSelection} />
     </View>
-
   );
 }
 

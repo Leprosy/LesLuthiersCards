@@ -34,6 +34,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.generalBg }}>
       {/* Player scores */}
       <View style={{ flex: 1, backgroundColor: "#efe" }}>
+        <Text style={[gameStyles.normalText, gameStyles.textBold, gameStyles.textCenter]}>Marcador</Text>
         {state.players.map((p: Player, i: number) =>
           <Text
             style={[gameStyles.normalText, gameStyles.textCenter]}
@@ -46,10 +47,10 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
 
       {/* Play area */}
       <View style={{ flex: 4, backgroundColor: "#eef" }}>
+        <Text style={[gameStyles.title, gameStyles.textCenter]}>Turno de {state.currentPlayer?.name}</Text>
 
         {state.players.length > 1 ?
-          <View>
-            <Text style={[gameStyles.title, gameStyles.textCenter]}>Turno de {state.currentPlayer?.name}</Text>
+          <View style={{ marginTop: 20 }}>
             {state.currentPlayer?.cards.map((card: Card, i: number) =>
               <MiniCard
                 key={i}

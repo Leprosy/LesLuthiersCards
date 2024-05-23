@@ -12,8 +12,8 @@ type MiniCardProps = {
 };
 
 const rowItems = 5;
-const horSpace = 55;
-const rowSpace = 50;
+const horSpace = 62;
+const rowSpace = 60;
 
 const getRot = () => Math.round(Math.random() * 10) - 5;
 
@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     width: "100%",
-    height: 120
+    height: 150
   }
 });
