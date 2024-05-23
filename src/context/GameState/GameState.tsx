@@ -27,6 +27,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
   };
 
   const reducer = (state: GameState, action: GameStateAction): GameState => {
+    // TODO: Is this complex enough to have modules for each action type?
     switch (action.type) {
       case GameStateActionType.NextTurn:
         if (state.turn == state.players.length - 1) {
@@ -36,20 +37,12 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         }
 
       case GameStateActionType.DrawCard: { // TODO not pure?
-        let card: Card;
-
-        if (action.data.cardId >= 0) {
-          card = Card.getCard(action.data.cardId) || Card.getRandomCard();
-        } else {
-          card = Card.getRandomCard();
-        }
+        const card = Card.getRandomCard();
 
         if (card.type == cardType.Effect) {
           // Execute effect
           const [tag, area, value] = card.tags;
           let affectedPlayers: Player[] = [];
-
-          console.log("Executing effect", card, { tag, area, value });
 
           // Compute affected players
           if (area == "all") {
@@ -58,44 +51,32 @@ export function GameStateProvider({ children }: PropsWithChildren) {
             affectedPlayers = [state.currentPlayer!];
           } else { // TODO: implement "other"
             state.players.forEach((player: Player) => {
-              console.log("Checking P-C", player, state.currentPlayer);
               if (player.name !== state.currentPlayer?.name) {
                 affectedPlayers.push(player);
               }
             });
           }
 
-          console.log("affectedPlayers", affectedPlayers);
-
           // Applying effect
           affectedPlayers.forEach((player: Player) => {
             // Effect on card
             if (tag !== "") {
-              console.log("cards of", player.name);
-              console.log(JSON.stringify(player.cards));
-              console.log("===");
-
               player.cards.forEach((card: Card) => {
-                console.log(card.getInfo());
-
                 if (card.hasTag(tag)) {
                   card.claps += parseInt(value);
                 }
               });
 
               player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
-
-              console.log(JSON.stringify(player.cards));
-              console.log("===");
-            } else { // Effect on player
+            } else {
+              // Effect on player
               affectedPlayers.forEach((player: Player) => {
-                console.log("Player gets claps. P/C", { affectedPlayers, value });
                 player.claps = player.claps + parseInt(value);
               });
             }
           });
         } else if (card.type == cardType.Trivia) {
-          console.log("Executing trivia", card);
+          console.log("GameState: Executing trivia", card);
         } else {
           state.currentPlayer?.cards.push(card);
         }

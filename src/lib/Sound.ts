@@ -37,7 +37,7 @@ export class SoundPlayer {
 
     SoundPlayer.music = new Sound(`${names[index]}.mp3`, Sound.MAIN_BUNDLE, (error) => {
       if (error) {
-        console.error("MusicPlayer: failed to load the sound", { names, error });
+        console.error("MusicPlayer: failed to load the sound", { names, index, error });
         return;
       }
 
