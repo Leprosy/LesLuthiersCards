@@ -31,6 +31,7 @@ export class SoundPlayer {
   }
 
   static playMusic(names: string[], volume = 1, index = 0) {
+    console.log("MusicPlayer: will play", names, index);
     Sound.setCategory("Playback");
     SoundPlayer.stopMusic();
 
@@ -52,7 +53,7 @@ export class SoundPlayer {
               index = 0;
             }
 
-            SoundPlayer.playMusic(names, volume, index + 1);
+            SoundPlayer.playMusic(names, volume, index);
           }
         }
       });
