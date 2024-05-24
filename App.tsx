@@ -17,6 +17,7 @@ import { GameStateProvider } from "./src/context/GameState/GameState";
 import { ModalProvider } from "./src/context/Modal";
 import { GameScreen } from "./src/screens/GameScreen";
 import { SoundPlayer } from "./src/lib/Sound";
+import { gameStyles } from "./src/const/styles";
 
 function LogoTitle(): React.JSX.Element {
   return (
@@ -24,7 +25,7 @@ function LogoTitle(): React.JSX.Element {
       <Image
         style={{ width: 30, height: 30 }}
         source={require("./res/img/ui/corbata.png")} />
-      <Text style={{ fontSize: 20, fontWeight: 600, paddingHorizontal: 10 }}>Les Luthiers</Text>
+      <Text style={gameStyles.title}>Les Luthiers</Text>
       <Image
         style={{ width: 30, height: 30 }}
         source={require("./res/img/ui/corbata.png")} />
