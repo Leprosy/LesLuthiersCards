@@ -3,6 +3,7 @@ import { ModalContext } from "../context/Modal";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { shuffleArray } from "../lib/utils";
 import { Card } from "../lib/Card/Card";
+import { gameStyles } from "../const/styles";
 
 type TriviaDialogProps = {
   card: Card;
@@ -22,16 +23,14 @@ export function TriviaDialog({ card, onAnswer }: TriviaDialogProps): React.JSX.E
     }
   });
 
-  console.log("REady", { tags: card.tags, options, answer });
-
   const optsElement = options.map((item: string, i: number) => <Button key={i} title={item} onPress={() => { onAnswer(false); setModalVisible(false); }} />);
   optsElement.push(<Button key={666} title={answer} onPress={() => { onAnswer(true); setModalVisible(false); }} />);
   shuffleArray(optsElement);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Trivia</Text>
-      <Text style={styles.text}>{card.text}</Text>
+      <Text style={[gameStyles.title, gameStyles.textCenter]}>Hora de Trivia</Text>
+      <Text style={[gameStyles.normalText, gameStyles.textCenter]}>{card.text}</Text>
       {optsElement}
     </View>
   );
@@ -41,20 +40,4 @@ const styles = StyleSheet.create({
   container: {
     width: 200
   },
-
-  title: {
-    fontSize: 20,
-    fontWeight: "600"
-  },
-
-  text: {
-    fontSize: 16
-  },
-
-  input: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginBottom: 5
-  }
 });
