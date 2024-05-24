@@ -1,5 +1,6 @@
-import { cards } from "./luthiers";
+import { cards, fx } from "./luthiers";
 import { arrRand } from "../utils";
+import { Player } from "../Player";
 
 export enum cardType {
   "Instrument",
@@ -62,12 +63,53 @@ export class Card {
   }
 
   /**
+   * Gets ratio of cards
+   */
+  static getRatio(cards: Card[]) {
+    return false;
+  }
+
+  /**
    * Find a random card from the deck
    *
    * @returns Card
    */
-  static getRandomCard(): Card {
-    const card = arrRand(cards) as cardAttr;
+  static getRandomCard(currentPlayer: Player, players: Player[]): Card {
+    let card: cardAttr;
+
+    // 30% chance of an effect/trivia card
+    if (Math.random() * 100 < 30) {
+      card = arrRand(fx) as cardAttr;
+      console.log("Card: getting fx/trivia", card);
+
+      // Check if fx is applicable
+      let isOk = true;
+
+      if (card.type === cardType.Effect && card.tags[0] !== "") {
+        isOk = false;
+
+        players.forEach((player: Player) => {
+          player.cards.forEach((ccard: Card) => {
+            console.log(`Card: Checking if "${card.tags[0]}" applicable to "${ccard.tags}"`);
+
+            if (ccard.hasTag(card.tags[0])) {
+              isOk = true;
+            }
+          });
+        });
+      }
+
+      if (isOk) {
+        return new Card(card);
+      }
+    }
+
+    card = arrRand(cards) as cardAttr;
+    console.log("Card: getting regular card", card);
+    //console.log("Card: ratio", Card.getRatio(currentPlayer.cards));
+    //let cards: Card[] = [];
+    //players.forEach((player: Player) => cards = [...player.cards]);
+
     return new Card(card);
   }
 

@@ -290,8 +290,39 @@ const trivia: cardAttr[] = [
     claps: 30,
     cards: [],
     tags: ["Tubófono Silicónico", "Tubófono Parafínico", "Tubófono Natural", "Tubófono da Testa"]
+  },
+  {
+    id: 307,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál de estos no es un seudónimo de Mastropiero?",
+    claps: 20,
+    cards: [],
+    tags: ["Raymond Drinkstein", "Johann Severo Mastropiano", "Klaus Müller", "Peter Illich"]
+  },
+  {
+    id: 308,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿En qué espectáculo se estrena el Gom-Horn a Pistones?",
+    claps: 30,
+    cards: [],
+    tags: ["Recital 73", "Recital 74", "Blancanieves y los 7 Pecados Capitales", "Mastropiero que Nunca"]
+  },
+  {
+    id: 309,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál de estos instrumentos de viento nunca apareció en un espectáculo?",
+    claps: 30,
+    cards: [],
+    tags: ["Flauta Traversa", "Flauta Dulce", "Quena", "Pincuyo"]
   }
 ];
 
 
-export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs, ...effects, ...trivia];
+export const cards: cardAttr[] = [...luthiers, ...instruments, ...songs];
+export const fx: cardAttr[] = [...effects, ...trivia];

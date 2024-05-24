@@ -1,5 +1,5 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Image, SafeAreaView, Text, View } from "react-native";
 import { RootTabParamList } from "../types";
 import { Colors, gameStyles } from "../const/styles";
 import { imageStore } from "../lib/images";

@@ -37,7 +37,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
         }
 
       case GameStateActionType.DrawCard: { // TODO not pure?
-        const card = Card.getRandomCard();
+        const card = Card.getRandomCard(state.currentPlayer!, state.players);
 
         if (card.type == cardType.Effect) {
           // Execute effect
