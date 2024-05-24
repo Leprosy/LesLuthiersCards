@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import { Card } from "../lib/Card/Card";
 import { imageStore } from "../lib/images";
+import { Colors } from "../const/styles";
 
 type MiniCardProps = {
   card: Card;
@@ -44,6 +45,7 @@ export function MiniCard({ card, index, selected, onPress, onLongPress }: MiniCa
     onLongPress={() => (onLongPress || (() => {})) ()}>
       <Text style={[styles.title, getSize(card.slug)]}>{card.slug}</Text>
       <Image style={styles.image} source={imageStore[card.id].res}/>
+      <Text style={[styles.title, { fontSize: 13 }]}>{card.claps}</Text>
     </Pressable>
   );
 }
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     borderColor: "#f00",
   },
   title: {
+    color: Colors.textColor,
     fontWeight: "600",
     textAlign: "center",
     marginBottom: 5,
