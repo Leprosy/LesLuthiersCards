@@ -66,7 +66,17 @@ export class Card {
    * Gets ratio of cards
    */
   static getRatio(cards: Card[]) {
-    return false;
+    const stack = { "0": 0, "1": 0, "2": 0 };
+
+    cards.forEach((card: Card) => {
+      if (stack[card.type]) {
+        stack[card.type] += 1 / cards.length;
+      } else {
+        stack[card.type] = 1 / cards.length;
+      }
+    });
+
+    return stack;
   }
 
   /**
@@ -106,7 +116,7 @@ export class Card {
 
     card = arrRand(cards) as cardAttr;
     console.log("Card: getting regular card", card);
-    //console.log("Card: ratio", Card.getRatio(currentPlayer.cards));
+    console.log("Card: ratio", Card.getRatio(currentPlayer.cards));
     //let cards: Card[] = [];
     //players.forEach((player: Player) => cards = [...player.cards]);
 

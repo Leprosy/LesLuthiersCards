@@ -8,6 +8,7 @@ import { TriviaDialog } from "./TriviaDialog";
 import { ModalContext } from "../context/Modal";
 import { SoundPlayer } from "../lib/Sound";
 import { BigCard } from "./BigCard";
+import { getRndString } from "../lib/utils";
 
 export function PlayButtons(): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -18,21 +19,24 @@ export function PlayButtons(): React.JSX.Element {
 
   // Functions
   const resetGame = () => {
+    SoundPlayer.playSfx("shuffle");
     setCanDraw(true);
     dispatch({ type: GameStateActionType.ResetGame, data: {} });
   };
 
   const drawCard = () => {
+    SoundPlayer.playSfx(getRndString("card", 3));
+
     setCanDraw(false);
     dispatch({ type: GameStateActionType.DrawCard, call: (card) => {
       if (card.type === cardType.Trivia) {
         modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => { // TODO: Can we refactor this in a function(dispatch)?
           if (value) {
-            SoundPlayer.playSfx("clap");
+            SoundPlayer.playSfx(getRndString("claps", 6));
             Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`); // TODO: Replace Alerts for Modals
             dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
           } else {
-            SoundPlayer.playSfx("boo");
+            SoundPlayer.playSfx(getRndString("boo", 6));
             Alert.alert("Cuec", "Respuesta incorrecta");
           }
         }} />);

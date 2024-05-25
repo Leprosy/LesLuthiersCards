@@ -24,7 +24,7 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   };
 
   useEffect(() => {
-    SoundPlayer.playMusic(["bg0", "bg1", "bg2"], 0.1);
+    SoundPlayer.playMusic(["bg0", "bg1", "bg2"], 0.2);
   }, []);
 
 
@@ -34,10 +34,10 @@ export function GameScreen({ navigation }: BottomTabScreenProps<RootTabParamList
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.generalBg }}>
       {/* Player scores */}
       <View style={{ flex: 1, backgroundColor: Colors.middleBg }}>
-        <Text style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textBold, gameStyles.textCenter]}>Marcador</Text>
+        <Text style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textBold, gameStyles.textCenter, { marginBottom: 1 }]}>Marcador</Text>
         {state.players.map((p: Player, i: number) =>
           <Text
-            style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textCenter]}
+            style={[gameStyles.normalText, gameStyles.invertedText, gameStyles.textCenter, { marginBottom: 1 }]}
             onPress={() => { modal.setModalVisible(true); }}
             key={i}>
             {i == state.turn ? "*" : ""} {p.name}: {p.cards.length} cartas, {p.claps} aplausos. {i == state.turn ? "*" : ""}

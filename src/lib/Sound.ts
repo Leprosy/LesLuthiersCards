@@ -10,12 +10,18 @@ export class SoundPlayer {
         console.log("MusicPlayer: Music stopped");
       });
     } catch (e) {
-      console.log("MusicPlayer: No sound playing");
+      console.log("MusicPlayer: No music playing");
     }
   }
 
   static playSfx(name: string) {
     Sound.setCategory("Playback");
+    try {
+      SoundPlayer.sfx.stop();
+    } catch (e) {
+      console.log("MusicPlayer: No sfx playing");
+    }
+
     SoundPlayer.sfx = new Sound(`${name}.mp3`, Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.error("MusicPlayer: failed to load the sound", { name, error });

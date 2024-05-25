@@ -40,3 +40,10 @@ export const shuffleArray = (array: any[]) => {
       array[randomIndex], array[currentIndex]];
   }
 };
+
+/**
+ * Get random string froma list of similar names
+ */
+export const getRndString = (text: string, length: number) => {
+  return text + Math.round(Math.random() * (length - 1));
+};
