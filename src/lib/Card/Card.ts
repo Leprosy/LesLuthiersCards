@@ -63,31 +63,14 @@ export class Card {
   }
 
   /**
-   * Gets ratio of cards
-   */
-  static getRatio(cards: Card[]) {
-    const stack = { "0": 0, "1": 0, "2": 0 };
-
-    cards.forEach((card: Card) => {
-      if (stack[card.type]) {
-        stack[card.type] += 1 / cards.length;
-      } else {
-        stack[card.type] = 1 / cards.length;
-      }
-    });
-
-    return stack;
-  }
-
-  /**
-   * Find a random card from the deck
+   * Find a random card from the deck using a simple algorithm of chance
    *
    * @returns Card
    */
   static getRandomCard(currentPlayer: Player, players: Player[]): Card {
     let card: cardAttr;
 
-    // 30% chance of an effect/trivia card
+    // 30% chance of getting an effect/trivia card
     if (Math.random() * 100 < 30) {
       card = arrRand(fx) as cardAttr;
       console.log("Card: getting fx/trivia", card);
@@ -95,6 +78,7 @@ export class Card {
       // Check if fx is applicable
       let isOk = true;
 
+      // If FX, check if it is applicable
       if (card.type === cardType.Effect && card.tags[0] !== "") {
         isOk = false;
 
@@ -114,7 +98,24 @@ export class Card {
       }
     }
 
-    card = arrRand(cards) as cardAttr;
+    // 70% of getting Luthier/Song/Instrument
+    // You can't get a Luthier/Instrument you already have
+    let isOk = false;
+
+    const ids = currentPlayer.cards
+      .filter((card: Card) => card.type !== cardType.Song)
+      .map((card: Card) => card.id);
+
+    do {
+      card = arrRand(cards) as cardAttr;
+      console.log("Card: Regular card being checked", card);
+
+      if (ids.indexOf(card.id) < 0) {
+        console.log("Card: Regular card not in hand or is a song.");
+        isOk = true;
+      }
+    } while (!isOk);
+
     console.log("Card: getting regular card", card);
     console.log("Card: ratio", Card.getRatio(currentPlayer.cards));
     //let cards: Card[] = [];
