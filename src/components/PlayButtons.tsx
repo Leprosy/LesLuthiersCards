@@ -35,7 +35,7 @@ export function PlayButtons(): React.JSX.Element {
             SoundPlayer.playSfx(getRndString("claps", 6));
             Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`); // TODO: Replace Alerts for Modals
             dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
-          } else {
+          } else { // TODO: Check if modal is closed and perform this action too
             SoundPlayer.playSfx(getRndString("boo", 6));
             Alert.alert("Cuec", "Respuesta incorrecta");
           }
