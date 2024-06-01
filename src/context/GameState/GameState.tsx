@@ -135,7 +135,12 @@ export function GameStateProvider({ children }: PropsWithChildren) {
           selection = state.selection;
         } else {
           state.currentPlayer!.claps += total;
-          state.selection.forEach((card: Card) => state.currentPlayer?.cards.splice(state.currentPlayer?.cards.indexOf(card), 1));
+          state.selection.forEach((card: Card) => {
+            // Luthiers & Instruments doesn't go away
+            if ([cardType.Instrument, cardType.Luthier].indexOf(card.type) < 0) {
+              state.currentPlayer?.cards.splice(state.currentPlayer?.cards.indexOf(card), 1);
+            }
+          });
         }
 
         if (action.call) {

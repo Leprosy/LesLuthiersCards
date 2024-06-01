@@ -9,7 +9,7 @@ type RegularButtonProps = {
 }
 
 export function RegularButton({ title, style, disabled, onPress }: RegularButtonProps): React.JSX.Element {
-  const fn = onPress || function() { return null; }; // TODO: WTF IS THIS CRAP
+  const fn = onPress || function() { return null; }; // XXX: WTF IS THIS CRAP
 
   return (
     <Pressable
