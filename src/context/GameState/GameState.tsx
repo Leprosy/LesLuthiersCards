@@ -2,6 +2,8 @@ import React, { PropsWithChildren, createContext, useReducer } from "react";
 import { GameContextState, GameState, GameStateAction, GameStateActionType } from "./types";
 import { Player } from "../../lib/Player";
 import { Card, cardType } from "../../lib/Card/Card";
+import { SoundPlayer } from "../../lib/Sound";
+import { getRndString } from "../../lib/utils";
 
 export const GameContext = createContext<GameContextState>({} as GameContextState);
 
@@ -75,6 +77,12 @@ export function GameStateProvider({ children }: PropsWithChildren) {
               });
             }
           });
+
+          if (parseInt(value) > 0) {
+            SoundPlayer.playSfx(getRndString("claps", 6));
+          } else {
+            SoundPlayer.playSfx(getRndString("boo", 6));
+          }
         } else if (card.type == cardType.Trivia) {
           console.log("GameState: Executing trivia", card);
         } else {

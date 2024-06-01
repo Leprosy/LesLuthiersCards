@@ -320,6 +320,56 @@ const trivia: cardAttr[] = [
     claps: 30,
     cards: [],
     tags: ["Flauta Traversa", "Flauta Dulce", "Quena", "Pincuyo"]
+  },
+  {
+    id: 310,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Qué instrumento fue estrenado en Humor Dulce Hogar?",
+    claps: 12,
+    cards: [],
+    tags: ["Mandocleta", "Mangelódica", "Tamburete", "Matraca"]
+  },
+  {
+    id: 311,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿En qué espectáculo se estrenan las Tablas de Lavar?",
+    claps: 12,
+    cards: [],
+    tags: ["Por Humor al Arte", "Humor Dulce Hogar", "Luthierías", "Hacen Muchas Gracias de Nada"]
+  },
+  {
+    id: 312,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál es la primera nota del Teorema de Thales?",
+    claps: 20,
+    cards: [],
+    tags: ["Fa", "Fa Sostenido", "Re", "Sol"]
+  },
+  {
+    id: 313,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Qué instrumento jamás fue ejecutado por Marcos Mundstock?",
+    claps: 18,
+    cards: [],
+    tags: ["Kazoo", "Kultrún", "Gom-Horn Natural", "Teclado"]
+  },
+  {
+    id: 314,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Qué instrumento jamás fue ejecutado por Daniel Rabinovich?",
+    claps: 18,
+    cards: [],
+    tags: ["Chelato", "Piano", "Flauta", "Guitarra Dulce"]
   }
 ];
 

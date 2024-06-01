@@ -26,8 +26,8 @@ export function PlayButtons(): React.JSX.Element {
 
   const drawCard = () => {
     SoundPlayer.playSfx(getRndString("card", 3));
-
     setCanDraw(false);
+
     dispatch({ type: GameStateActionType.DrawCard, call: (card) => {
       if (card.type === cardType.Trivia) {
         modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => { // TODO: Can we refactor this in a function(dispatch)?
@@ -55,7 +55,13 @@ export function PlayButtons(): React.JSX.Element {
 
   const playSelection = () => {
     dispatch({ type: GameStateActionType.PlaySelection, call: (total: number) => {
-      Alert.alert(total > 0 ? `¡Ganaste ${total} aplausos!` : "Jugada invalida");
+      if (total > 0) {
+        SoundPlayer.playSfx(getRndString("claps", 6));
+        Alert.alert("Excelente", `¡Ganaste ${total} aplausos!`);
+      } else {
+        SoundPlayer.playSfx(getRndString("boo", 6));
+        Alert.alert("Pésimo", "Jugada invalida");
+      }
     } });
   };
 

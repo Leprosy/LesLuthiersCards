@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions } from "react-native";
 import { Card } from "../lib/Card/Card";
 import { imageStore } from "../lib/images";
 import { Colors } from "../const/styles";
@@ -13,16 +13,8 @@ type MiniCardProps = {
 };
 
 const rowItems = 5;
-const horSpace = 62;
-const rowSpace = 60;
 
 const getRot = () => Math.round(Math.random() * 10) - 5;
-
-const getPos = (i: number) => {
-  const left = (i % rowItems) * horSpace;
-  const top = Math.floor(i / rowItems) * rowSpace;
-  return { left, top };
-};
 
 const getSize = (str: string) => {
   return { fontSize: str.length > 10 ? 13 : 15 };
@@ -30,6 +22,15 @@ const getSize = (str: string) => {
 
 export function MiniCard({ card, index, selected, onPress, onLongPress }: MiniCardProps): React.JSX.Element {
   const [elevated, setElevated] = useState(false);
+  const { height, width } = useWindowDimensions();
+
+  const getPos = (i: number) => {
+    const horSpace = width / 6;
+    const rowSpace = height / 10;
+    const left = (i % rowItems) * horSpace;
+    const top = Math.floor(i / rowItems) * rowSpace;
+    return { left, top, transform: [{ rotate: `${getRot()}deg` }], width: width / 3, height: height / 4 };
+  };
 
   return (
     <Pressable style={[
@@ -37,14 +38,14 @@ export function MiniCard({ card, index, selected, onPress, onLongPress }: MiniCa
       selected ? styles.selected : null,
       { transform: [{ rotate: `${getRot()}deg` }] },
       elevated ? { elevation: 50, transform: [{ scale: 1.2 }] } : null,
-      getPos(index)
+      getPos(index),
     ]}
     onPressIn={() => setElevated(true)}
     onPressOut={() => setElevated(false)}
     onPress={() => (onPress || (() => {})) ()}
     onLongPress={() => (onLongPress || (() => {})) ()}>
       <Text style={[styles.title, getSize(card.slug)]}>{card.slug}</Text>
-      <Image style={styles.image} source={imageStore[card.id].res}/>
+      <Image style={[styles.image]} source={imageStore[card.id].res}/>
       <Text style={[styles.title, { fontSize: 13 }]}>{card.claps}</Text>
     </Pressable>
   );
@@ -53,7 +54,6 @@ export function MiniCard({ card, index, selected, onPress, onLongPress }: MiniCa
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    width: "35%",
     padding: 5,
     backgroundColor: "#ccc",
     borderStyle: "solid",
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     width: "100%",
-    height: 150
+    height: "75%"
   }
 });
