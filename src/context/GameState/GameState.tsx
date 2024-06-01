@@ -38,61 +38,55 @@ export function GameStateProvider({ children }: PropsWithChildren) {
           return { ...state, turn: state.turn + 1, currentPlayer: state.players[state.turn + 1], selection: [] };
         }
 
-      case GameStateActionType.DrawCard: { // TODO not pure?
-        const card = Card.getRandomCard(state.currentPlayer!, state.players);
+      case GameStateActionType.ApplyEffect: {
+        const card = action.data.card;
+        const [tag, area, value] = card.tags;
+        let affectedPlayers: Player[] = [];
 
-        if (card.type == cardType.Effect) {
-          // Execute effect
-          const [tag, area, value] = card.tags;
-          let affectedPlayers: Player[] = [];
-
-          // Compute affected players
-          if (area == "all") {
-            affectedPlayers = state.players;
-          } else if (area == "own") {
-            affectedPlayers = [state.currentPlayer!];
-          } else { // TODO: implement "other"
-            state.players.forEach((player: Player) => {
-              if (player.name !== state.currentPlayer?.name) {
-                affectedPlayers.push(player);
-              }
-            });
-          }
-
-          // Applying effect
-          affectedPlayers.forEach((player: Player) => {
-            // Effect on card
-            if (tag !== "") {
-              player.cards.forEach((card: Card) => {
-                if (card.hasTag(tag)) {
-                  card.claps += parseInt(value);
-                }
-              });
-
-              player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
-            } else {
-              // Effect on player
-              affectedPlayers.forEach((player: Player) => {
-                player.claps = player.claps + parseInt(value);
-              });
+        // Compute affected players
+        if (area == "all") {
+          affectedPlayers = state.players;
+        } else if (area == "own") {
+          affectedPlayers = [state.currentPlayer!];
+        } else { // TODO: implement "other"
+          state.players.forEach((player: Player) => {
+            if (player.name !== state.currentPlayer?.name) {
+              affectedPlayers.push(player);
             }
           });
+        }
 
-          if (parseInt(value) > 0) {
-            SoundPlayer.playSfx(getRndString("claps", 6));
+        // Applying effect
+        affectedPlayers.forEach((player: Player) => {
+          // Effect on card
+          if (tag !== "") {
+            player.cards.forEach((card: Card) => {
+              if (card.hasTag(tag)) {
+                card.claps += parseInt(value);
+              }
+            });
+
+            player.cards = player.cards.filter( (card: Card) => card.claps >= 0 );
           } else {
-            SoundPlayer.playSfx(getRndString("boo", 6));
+            // Effect on player
+            affectedPlayers.forEach((player: Player) => {
+              player.claps = player.claps + parseInt(value);
+            });
           }
-        } else if (card.type == cardType.Trivia) {
-          console.log("GameState: Executing trivia", card);
+        });
+
+        if (parseInt(value) > 0) {
+          SoundPlayer.playSfx(getRndString("claps", 6));
         } else {
-          state.currentPlayer?.cards.push(card);
+          SoundPlayer.playSfx(getRndString("boo", 6));
         }
 
-        if (action.call) {
-          action.call(card); // TODO: to fix the render while updating warning, try adding lastCard to reducer state
-        }
+        return { ...state };
+      }
 
+      case GameStateActionType.DrawCard: { // TODO not pure?
+        const card = action.data.card;
+        state.currentPlayer?.cards.push(card);
         return { ...state };
       }
 

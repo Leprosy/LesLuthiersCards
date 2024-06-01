@@ -66,14 +66,14 @@ export class Card {
 
   /**
    * Find a random card from the deck using a simple algorithm of chance
+   * One fx(30%) or Three regulars(70%)
    *
    * @returns Card
    */
-  static getRandomCard(currentPlayer: Player, players: Player[]): Card {
-    let card: cardAttr;
-
+  static getRandomCards(currentPlayer: Player, players: Player[]): Card[] {
     // 30% chance of getting an effect/trivia card
     if (Math.random() * 100 < 30) {
+      let card: cardAttr;
       card = arrRand(fx) as cardAttr;
       console.log("Card: getting fx/trivia", card);
 
@@ -114,30 +114,38 @@ export class Card {
       }
 
       if (isOk) {
-        return new Card(card);
+        return [new Card(card)];
       }
     }
 
     // 70% of getting Luthier/Song/Instrument
     // You can't get a Luthier/Instrument you already have
+    const card3: Card[] = [];
+    let card: cardAttr;
     let isOk = false;
 
     const ids = currentPlayer.cards
       .filter((card: Card) => card.type !== cardType.Song)
       .map((card: Card) => card.id);
 
-    do {
-      card = arrRand(cards) as cardAttr;
-      console.log("Card: Regular card being checked", card);
+    while (card3.length < 3) { // TODO: Rules can change this value?
+      do {
+        card = arrRand(cards) as cardAttr;
+        console.log("Card: Regular card being checked", card);
 
-      if (ids.indexOf(card.id) < 0) {
-        console.log("Card: Regular card not in hand or is a song.");
-        isOk = true;
-      }
-    } while (!isOk);
+        if (ids.indexOf(card.id) < 0) {
+          console.log("Card: Regular card not in hand or is a song.");
+          isOk = true;
+        }
+      } while (!isOk);
 
-    console.log("Card: getting regular card", card);
-    return new Card(card);
+      card3.push(new Card(card));
+      ids.push(card.id);
+      isOk = false;
+    }
+
+    console.log("Card: getting regular card set", card3);
+    return card3;
   }
 
   /**

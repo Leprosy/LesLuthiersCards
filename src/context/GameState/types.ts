@@ -24,6 +24,7 @@ export enum GameStateActionType {
   PlaySelection,
   SetElevated,
   AddClapsToCurrentPlayer,
+  ApplyEffect,
 }
 
 export type GameStateAction = {
