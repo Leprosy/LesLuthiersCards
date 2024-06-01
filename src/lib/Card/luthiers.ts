@@ -230,7 +230,7 @@ const effects: cardAttr[] = [
   },
 ];
 
-const trivia: cardAttr[] = [
+export const trivia: cardAttr[] = [
   {
     id: 301,
     type: cardType.Trivia,

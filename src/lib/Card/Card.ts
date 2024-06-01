@@ -1,4 +1,4 @@
-import { cards, fx } from "./luthiers";
+import { cards, fx, trivia } from "./luthiers";
 import { arrRand } from "../utils";
 import { Player } from "../Player";
 
@@ -21,6 +21,8 @@ export class Card {
   claps: number;
   tags: string[];
   cards?: number[];
+
+  static playedTriviaIds: number[] = [];
 
   constructor({ id, type, name, slug, text, claps, cards, tags }: cardAttr) {
     this.id = id;
@@ -75,7 +77,6 @@ export class Card {
       card = arrRand(fx) as cardAttr;
       console.log("Card: getting fx/trivia", card);
 
-      // Check if fx is applicable
       let isOk = true;
 
       // If FX, check if it is applicable
@@ -91,6 +92,25 @@ export class Card {
             }
           });
         });
+      }
+
+      // If Trivia, check if it wasn't played already
+      if (card.type === cardType.Trivia) {
+        console.log("Card: Trivias played", Card.playedTriviaIds);
+
+        if (Card.playedTriviaIds.length == trivia.length) {
+          // All trivias played
+          console.log("Card: All trivias played, shuffling.");
+          Card.playedTriviaIds = [];
+        }
+
+        while (Card.playedTriviaIds.indexOf(card.id) > 0) {
+          console.log("Card: trivia already played", card);
+          card = arrRand(trivia) as cardAttr;
+        }
+
+        Card.playedTriviaIds.push(card.id);
+
       }
 
       if (isOk) {
@@ -117,10 +137,6 @@ export class Card {
     } while (!isOk);
 
     console.log("Card: getting regular card", card);
-    console.log("Card: ratio", Card.getRatio(currentPlayer.cards));
-    //let cards: Card[] = [];
-    //players.forEach((player: Player) => cards = [...player.cards]);
-
     return new Card(card);
   }
 
