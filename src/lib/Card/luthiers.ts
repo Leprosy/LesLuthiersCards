@@ -370,7 +370,37 @@ export const trivia: cardAttr[] = [
     claps: 18,
     cards: [],
     tags: ["Chelato", "Piano", "Flauta", "Guitarra Dulce"]
-  }
+  },
+  {
+    id: 315,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál de estos instrumentos ha sido tocado por Marcos Mundstock?",
+    claps: 10,
+    cards: [],
+    tags: ["Compadescu", "Piano", "Flauta", "Guitarra Dulce"]
+  },
+  {
+    id: 316,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿Cuál de estos instrumentos ha sido tocado por Jorge Marona?",
+    claps: 10,
+    cards: [],
+    tags: ["Clamaneus", "Glamocot", "Glisofono", "Gom Horn"]
+  },
+  {
+    id: 317,
+    type: cardType.Trivia,
+    name: "",
+    slug: "",
+    text: "¿En qué espectáculo se interpretó la obra mariposa Mi Amada es una Máquina?",
+    claps: 15,
+    cards: [],
+    tags: ["Viegésimo Aniversario", "Viejos Fracasos", "Viejos Hazmereíres", "Unen Canto con Humor"]
+  },
 ];
 
 
