@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { RegularButton } from "./RegularButton";
 import { GameContext } from "../context/GameState/GameState";
 import { GameStateActionType } from "../context/GameState/types";
@@ -10,6 +10,7 @@ import { SoundPlayer } from "../lib/Sound";
 import { BigCard } from "./BigCard";
 import { getRndString } from "../lib/utils";
 import { PickCardDialog } from "./PickCardDialog";
+import { Alert } from "./Alert";
 
 export function PlayButtons(): React.JSX.Element {
   const [canDraw, setCanDraw] = useState(false);
@@ -19,15 +20,20 @@ export function PlayButtons(): React.JSX.Element {
 
 
   // Functions
+  const wrongAnswer = () => {
+    SoundPlayer.playSfx(getRndString("boo", 6));
+    modal.show(<Alert title="Cuec" text="Respuesta incorrecta" />);
+  };
+
   const triviaDialog = (card: Card) => {
+    modal.setDismiss(wrongAnswer);
     modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => {
       if (value) {
         SoundPlayer.playSfx(getRndString("claps", 6));
-        Alert.alert("¡Correcto!", `¡Has ganado ${card.claps} aplausos!`); // TODO: Replace Alerts for Modals
+        modal.show(<Alert title="¡Correcto!" text={`¡Has ganado ${card.claps} aplausos!`} />);
         dispatch({ type: GameStateActionType.AddClapsToCurrentPlayer, data: { claps: card.claps } });
-      } else { // TODO: Check if modal is closed and perform this action too
-        SoundPlayer.playSfx(getRndString("boo", 6));
-        Alert.alert("Cuec", "Respuesta incorrecta");
+      } else {
+        wrongAnswer();
       }
     }} />);
   };
@@ -105,7 +111,7 @@ export function PlayButtons(): React.JSX.Element {
       }
 
       <RegularButton
-        disabled={state.selection.length < 2} // TODO: A method to check selection is playable?
+        disabled={state.selection.length < 2}
         style={{ flex: 1 }}
         title="Jugar Selección"
         onPress={playSelection} />

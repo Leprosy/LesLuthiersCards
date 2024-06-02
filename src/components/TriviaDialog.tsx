@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { ModalContext } from "../context/Modal";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { shuffleArray } from "../lib/utils";
 import { Card } from "../lib/Card/Card";
 import { gameStyles } from "../const/styles";
+import { RegularButton } from "./RegularButton";
 
 type TriviaDialogProps = {
   card: Card;
@@ -23,8 +24,8 @@ export function TriviaDialog({ card, onAnswer }: TriviaDialogProps): React.JSX.E
     }
   });
 
-  const optsElement = options.map((item: string, i: number) => <Button key={i} title={item} onPress={() => { onAnswer(false); setModalVisible(false); }} />);
-  optsElement.push(<Button key={666} title={answer} onPress={() => { onAnswer(true); setModalVisible(false); }} />);
+  const optsElement = options.map((item: string, i: number) => <RegularButton key={i} title={item} onPress={() => { onAnswer(false); setModalVisible(false); }} />);
+  optsElement.push(<RegularButton key={666} title={answer} onPress={() => { onAnswer(true); setModalVisible(false); }} />);
   shuffleArray(optsElement);
 
   return (
@@ -38,6 +39,6 @@ export function TriviaDialog({ card, onAnswer }: TriviaDialogProps): React.JSX.E
 
 const styles = StyleSheet.create({
   container: {
-    width: 200
+    width: 300
   },
 });

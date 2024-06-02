@@ -16,7 +16,6 @@ export function GameStateProvider({ children }: PropsWithChildren) {
     currentElevated: -1,
     selection: [],
 
-    // TODO: State methods - better way to implement this?
     getNextPlayers: function() {
       let total = state.players.length + 1;
       if (total > MAX_PLAYERS || total == 1) total = 2;
@@ -48,7 +47,7 @@ export function GameStateProvider({ children }: PropsWithChildren) {
           affectedPlayers = state.players;
         } else if (area == "own") {
           affectedPlayers = [state.currentPlayer!];
-        } else { // TODO: implement "other"
+        } else {
           state.players.forEach((player: Player) => {
             if (player.name !== state.currentPlayer?.name) {
               affectedPlayers.push(player);
