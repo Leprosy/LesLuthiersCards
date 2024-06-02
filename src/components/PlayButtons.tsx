@@ -27,7 +27,7 @@ export function PlayButtons(): React.JSX.Element {
 
   const triviaDialog = (card: Card) => {
     modal.setDismiss(wrongAnswer);
-    modal.setContent(<TriviaDialog card={card} onAnswer={(value: boolean) => {
+    modal.show(<TriviaDialog card={card} onAnswer={(value: boolean) => {
       if (value) {
         SoundPlayer.playSfx(getRndString("claps", 6));
         modal.show(<Alert title="¡Correcto!" text={`¡Has ganado ${card.claps} aplausos!`} />);
@@ -45,34 +45,25 @@ export function PlayButtons(): React.JSX.Element {
   };
 
   const drawCard = () => {
-    SoundPlayer.playSfx(getRndString("card", 3));
     setCanDraw(false);
+    SoundPlayer.playSfx(getRndString("card", 3));
     const cards = Card.getRandomCards(state.currentPlayer!, state.players);
+    console.log("PlayButton: cardset", cards);
 
     if (cards.length === 1) {
-      console.log("PlayButton: Fx/trivia card", cards);
-
       if (cards[0].type === cardType.Trivia) {
         triviaDialog(cards[0]);
       } else {
         dispatch({ type: GameStateActionType.ApplyEffect, data: { card: cards[0] } });
-        modal.setContent(<BigCard card={cards[0]} />);
+        modal.show(<BigCard card={cards[0]} />);
       }
     } else {
-      console.log("PlayButton: Regular cards", cards);
-
-      modal.setContent(<PickCardDialog cards={cards} onAnswer={(card: Card) => {
+      modal.show(<PickCardDialog cards={cards} onAnswer={(card: Card) => {
         console.log("PlayButton: Card picked", card);
-
-        setTimeout(() => {
-          dispatch({ type: GameStateActionType.DrawCard, data: { card } });
-          modal.setContent(<BigCard card={card} />);
-          modal.setModalVisible(true);
-        }, 500);
+        dispatch({ type: GameStateActionType.DrawCard, data: { card } });
+        modal.show(<BigCard card={card} />);
       }} />);
     }
-
-    modal.setModalVisible(true);
   };
 
   const nextTurn = () => {
@@ -84,10 +75,10 @@ export function PlayButtons(): React.JSX.Element {
     dispatch({ type: GameStateActionType.PlaySelection, call: (total: number) => {
       if (total > 0) {
         SoundPlayer.playSfx(getRndString("claps", 6));
-        Alert.alert("Excelente", `¡Ganaste ${total} aplausos!`);
+        modal.show(<Alert title="Excelente" text={`¡Ganaste ${total} aplausos!`} />);
       } else {
         SoundPlayer.playSfx(getRndString("boo", 6));
-        Alert.alert("Pésimo", "Jugada invalida");
+        modal.show(<Alert title="Pésimo" text="Jugada invalida" />);
       }
     } });
   };
