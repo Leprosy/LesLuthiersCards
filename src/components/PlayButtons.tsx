@@ -8,7 +8,7 @@ import { TriviaDialog } from "./TriviaDialog";
 import { ModalContext } from "../context/Modal";
 import { SoundPlayer } from "../lib/Sound";
 import { BigCard } from "./BigCard";
-import { getRndString } from "../lib/utils";
+import { arrRand, getRndString } from "../lib/utils";
 import { PickCardDialog } from "./PickCardDialog";
 import { Alert } from "./Alert";
 
@@ -65,7 +65,7 @@ export function PlayButtons(): React.JSX.Element {
     } else {
       modal.show(<PickCardDialog cards={cards} onAnswer={(card: Card) => {
         pickAndShow(card);
-      }} />, () => pickAndShow(cards[0]));
+      }} />, () => pickAndShow(arrRand(cards) as Card));
     }
   };
 
