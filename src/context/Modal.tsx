@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, createContext, useEffect, useState } from "react";
+import React, { PropsWithChildren, createContext, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 type ModalContextState = {
@@ -6,7 +6,7 @@ type ModalContextState = {
   setContent: (el: React.JSX.Element) => void,
   setModalVisible: (vis: boolean) => void,
   setDismiss: (cb: () => void) => void,
-  show: (el: React.JSX.Element) => void,
+  show: (el: React.JSX.Element, onDismiss?: () => void) => void,
 };
 
 export const ModalContext = createContext<ModalContextState>({} as ModalContextState);
@@ -25,15 +25,11 @@ export function ModalProvider({ children }: PropsWithChildren) {
     setOnDismiss(() => cb);
   };
 
-  const show = (el: React.JSX.Element) => {
+  const show = (el: React.JSX.Element, onDismiss?: () => void) => {
     setContent(el);
+    setOnDismiss(() => onDismiss || cb);
     setTimeout(() => setModalVisible(true), 250);
   };
-
-  useEffect(() => {
-    console.log("Modal: clearing cb");
-    setOnDismiss(() => cb);
-  }, [content]);
 
 
 

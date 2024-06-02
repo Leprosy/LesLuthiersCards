@@ -25,8 +25,13 @@ export function PlayButtons(): React.JSX.Element {
     modal.show(<Alert title="Cuec" text="Respuesta incorrecta" />);
   };
 
+  const pickAndShow = (card: Card) => {
+    console.log("PlayButton: card picked", card);
+    dispatch({ type: GameStateActionType.DrawCard, data: { card } });
+    modal.show(<BigCard card={card} />);
+  };
+
   const triviaDialog = (card: Card) => {
-    modal.setDismiss(wrongAnswer);
     modal.show(<TriviaDialog card={card} onAnswer={(value: boolean) => {
       if (value) {
         SoundPlayer.playSfx(getRndString("claps", 6));
@@ -35,7 +40,7 @@ export function PlayButtons(): React.JSX.Element {
       } else {
         wrongAnswer();
       }
-    }} />);
+    }} />, wrongAnswer);
   };
 
   const resetGame = () => {
@@ -59,10 +64,8 @@ export function PlayButtons(): React.JSX.Element {
       }
     } else {
       modal.show(<PickCardDialog cards={cards} onAnswer={(card: Card) => {
-        console.log("PlayButton: Card picked", card);
-        dispatch({ type: GameStateActionType.DrawCard, data: { card } });
-        modal.show(<BigCard card={card} />);
-      }} />);
+        pickAndShow(card);
+      }} />, () => pickAndShow(cards[0]));
     }
   };
 

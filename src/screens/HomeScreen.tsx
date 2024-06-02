@@ -9,7 +9,7 @@ export function HomeScreen({ navigation }: BottomTabScreenProps<RootTabParamList
   const modal = useContext(ModalContext);
 
   const showCredits = () => {
-    modal.setContent(<Text>-- Colocar créditos del juego acá --</Text>);
+    modal.show(<Text>-- Colocar créditos del juego acá --</Text>);
     //modal.setContent(<SimpleDialog title="Dialog" text="Enter a value" callback={(data) => { Alert.alert("Value returned", `Value is ${data}`); }} />);
     modal.setModalVisible(true);
   };
